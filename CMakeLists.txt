@@ -4,11 +4,11 @@ project(MyProject VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(Main main.cpp)
-add_executable(Plotting plotting.cpp)
+add_executable(Main ./source/main.cpp)
+add_executable(Plotting ./source/plotting.cpp)
 
-add_executable(TestComplexNumbers testcomplexnumbers.cpp)
-add_executable(TestMandelbrot testmandelbrot.cpp)
+add_executable(TestComplexNumbers ./source/testcomplexnumbers.cpp)
+add_executable(TestMandelbrot ./source/testmandelbrot.cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
