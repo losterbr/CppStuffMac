@@ -17,7 +17,8 @@
       "command": "cmake",
       "args": [
         "--build",
-        "${workspaceFolder}/build",
+        "--preset",
+        "default",
         "--target",
         "Main"
       ],
@@ -33,7 +34,8 @@
       "command": "cmake",
       "args": [
         "--build",
-        "${workspaceFolder}/build",
+        "--preset",
+        "default",
         "--target",
         "Plotting"
       ],
@@ -49,7 +51,8 @@
       "command": "cmake",
       "args": [
         "--build",
-        "${workspaceFolder}/build",
+        "--preset",
+        "default",
         "--target",
         "TestComplexNumbers"
       ],
@@ -64,7 +67,8 @@
       "command": "cmake",
       "args": [
         "--build",
-        "${workspaceFolder}/build",
+        "--preset",
+        "default",
         "--target",
         "TestMandelbrot"
       ],

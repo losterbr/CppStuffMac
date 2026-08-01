@@ -10,7 +10,7 @@
       "name": "default",
       "displayName": "Default (Unix Makefiles)",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/.build/default",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CPPSTUFFMAC_ENABLE_WARNINGS": "ON"
@@ -20,6 +20,7 @@
       "name": "release",
       "displayName": "Release (Unix Makefiles)",
       "inherits": "default",
+      "binaryDir": "${sourceDir}/.build/release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
