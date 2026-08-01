@@ -63,17 +63,6 @@
       "externalConsole": false
     },
     {
-      "name": "Run Mandelbrot Membership Unit Tests (Non-interactive)",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/.build/default/bin/TestMandelbrot",
-      "cwd": "${workspaceFolder}",
-      "preLaunchTask": "Build Mandelbrot Membership Tests",
-      "MIMode": "lldb",
-      "stopAtEntry": false,
-      "externalConsole": false
-    },
-    {
       "name": "Run App Logic Unit Tests",
       "type": "cppdbg",
       "request": "launch",
