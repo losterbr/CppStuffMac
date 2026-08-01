@@ -1,0 +1,77 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Configure (default)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--preset",
+        "default"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Main",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "Main"
+      ],
+      "dependsOn": "CMake Configure (default)",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "Build Plotting",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "Plotting"
+      ],
+      "dependsOn": "CMake Configure (default)",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "Build TestComplexNumbers",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "TestComplexNumbers"
+      ],
+      "dependsOn": "CMake Configure (default)",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Build TestMandelbrot",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--target",
+        "TestMandelbrot"
+      ],
+      "dependsOn": "CMake Configure (default)",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 #include <iostream>
-#include "complexnumbers.cpp"
+#include <cmath>
+#include <limits>
+#include <numbers>
+#include <sstream>
+
+#include "complexnumbers.hpp"
 #include <gtest/gtest.h>
 
 TEST(IntegerInputsSuite, constructor)
@@ -22,11 +27,11 @@ TEST(IntegerInputsSuite, basicsPolar)
 {
   EXPECT_EQ(Complex().radius(), 0.) << "check is zero radius";
   EXPECT_THROW(Complex().angle(), std::invalid_argument) << "check throws";
-  EXPECT_EQ(Complex(0., 1.).angle(), M_PI_2) << "check angle";
-  EXPECT_EQ(Complex(-1., 0.).angle(), M_PI) << "check angle";
-  EXPECT_EQ(Complex(0., -1.).angle(), 3. * M_PI_2) << "check angle";
-  EXPECT_EQ(Complex(1., 1.).radius(), M_SQRT2) << "check 1+i";
-  EXPECT_TRUE(abs(Complex(1., 1.).angle() - M_PI_2 / 2.) < std::numeric_limits<double>::epsilon()) << "check 1+i";
+  EXPECT_EQ(Complex(0., 1.).angle(), std::numbers::pi / 2.0) << "check angle";
+  EXPECT_EQ(Complex(-1., 0.).angle(), std::numbers::pi) << "check angle";
+  EXPECT_EQ(Complex(0., -1.).angle(), 3. * std::numbers::pi / 2.0) << "check angle";
+  EXPECT_EQ(Complex(1., 1.).radius(), std::numbers::sqrt2) << "check 1+i";
+  EXPECT_TRUE(std::abs(Complex(1., 1.).angle() - std::numbers::pi / 4.0) < std::numeric_limits<double>::epsilon()) << "check 1+i";
 }
 
 TEST(IntegerInputsSuite, copyConstructor)

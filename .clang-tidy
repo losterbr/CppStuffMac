@@ -1,0 +1,11 @@
+Checks: >
+  -*,
+  bugprone-*,
+  performance-*,
+  readability-*,
+  modernize-*,
+  cppcoreguidelines-avoid-magic-numbers,
+  cppcoreguidelines-narrowing-conversions
+WarningsAsErrors: ''
+HeaderFilterRegex: 'include/|source/'
+FormatStyle: none

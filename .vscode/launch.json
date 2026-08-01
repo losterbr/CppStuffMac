@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Main",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/Main",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Main",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    },
+    {
+      "name": "Run Plotting",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/Plotting",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Plotting",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    },
+    {
+      "name": "Run TestComplexNumbers",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/TestComplexNumbers",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build TestComplexNumbers",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    },
+    {
+      "name": "Run TestMandelbrot",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/TestMandelbrot",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build TestMandelbrot",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    }
+  ]
+}

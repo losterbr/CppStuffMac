@@ -1,5 +1,5 @@
 #include <iostream>
-#include "mandelbrot.cpp"
+#include "mandelbrot.hpp"
 #include <gtest/gtest.h>
 
 TEST(IntegerInputsSuite, notInMandelbrot)
