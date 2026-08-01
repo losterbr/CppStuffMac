@@ -2,19 +2,11 @@
 
 #include <iostream>
 
-#include "complexnumbers.hpp"
 #include "mandelbrot.hpp"
-#include "terminalcolour.hpp"
 
 int run_main_app_interactive(std::istream &is, std::ostream &os)
 {
-    os << Modifier(ForegroundCode::RED, BackgroundCode::GREEN);
-    os << Complex();
-    os << Modifier() << '\n';
-
     Mandelbrot set;
-    os << "is 0.5+0i outside set? " << std::boolalpha << set.isNotMandelbrot(Complex(0.5, 0.0))
-       << '\n';
 
     double real = 0.0;
     os << "Enter real part: ";

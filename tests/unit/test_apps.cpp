@@ -9,6 +9,7 @@
 
 #include "main_app.hpp"
 #include "plotting_app.hpp"
+#include "terminalcolour.hpp"
 
 namespace
 {
@@ -21,12 +22,13 @@ std::string read_file(const std::string &file_path)
 }
 } // namespace
 
-TEST(AppMainSuite, RunMainIncludesInitialMandelbrotSample)
+TEST(AppMainSuite, RunMainPromptsAndEvaluatesInput)
 {
-    std::istringstream in("0 0\n");
+    std::istringstream in("0.5 0\n");
     std::ostringstream out;
     EXPECT_EQ(run_main_app_interactive(in, out), 0);
-    EXPECT_NE(out.str().find("0+0i"), std::string::npos);
+    EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
+    EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
     EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
 }
 
@@ -55,6 +57,27 @@ TEST(AppMainSuite, RunMainRejectsInvalidImaginaryInput)
     std::ostringstream out;
     EXPECT_EQ(run_main_app_interactive(in, out), 1);
     EXPECT_NE(out.str().find("Invalid input for imaginary part."), std::string::npos);
+}
+
+TEST(TerminalColourSuite, ModifierStoresForegroundAndBackground)
+{
+    const Modifier modifier(ForegroundCode::RED, BackgroundCode::GREEN);
+    EXPECT_EQ(modifier.foreground(), ForegroundCode::RED);
+    EXPECT_EQ(modifier.background(), BackgroundCode::GREEN);
+}
+
+TEST(TerminalColourSuite, ModifierDefaultCodesAreUsed)
+{
+    const Modifier modifier;
+    EXPECT_EQ(modifier.foreground(), ForegroundCode::DEFAULT);
+    EXPECT_EQ(modifier.background(), BackgroundCode::DEFAULT);
+}
+
+TEST(TerminalColourSuite, ModifierStreamOutputsAnsiCodes)
+{
+    std::ostringstream out;
+    out << Modifier(ForegroundCode::BLUE, BackgroundCode::RED);
+    EXPECT_EQ(out.str(), "\033[34m\033[41m");
 }
 
 TEST(PlottingAppSuite, BuildXDataProducesExpectedRange)
