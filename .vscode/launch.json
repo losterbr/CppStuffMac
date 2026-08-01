@@ -34,6 +34,35 @@
       "externalConsole": false
     },
     {
+      "name": "Run Mandelbrot Plot (Interactive GNUplot Window)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/.build/default/bin/Plotting",
+      "args": [
+        "--mandelbrot",
+        "--gnuplot",
+        "--width",
+        "1000",
+        "--height",
+        "700",
+        "--max-iterations",
+        "800",
+        "--xmin",
+        "-2.5",
+        "--xmax",
+        "1.0",
+        "--ymin",
+        "-1.5",
+        "--ymax",
+        "1.5"
+      ],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Plotting App",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    },
+    {
       "name": "Run Plotting App (No GNUplot, Non-interactive)",
       "type": "cppdbg",
       "request": "launch",

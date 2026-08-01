@@ -133,12 +133,186 @@ TEST(PlottingAppSuite, WritePlotDataThrowsWhenFileCannotBeOpened)
     EXPECT_THROW(write_plot_data("does-not-exist-dir/out.txt", x, y), std::runtime_error);
 }
 
+TEST(PlottingAppSuite, BuildMandelbrotImageProducesExpectedSize)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 7;
+    options.height = 5;
+    options.max_iterations = 50;
+
+    const std::vector<int> pixels = build_mandelbrot_image(options);
+    ASSERT_EQ(pixels.size(), 35U);
+}
+
+TEST(PlottingAppSuite, BuildMandelbrotImageRejectsInvalidBounds)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 10;
+    options.height = 10;
+    options.x_min = 1.0;
+    options.x_max = -1.0;
+
+    EXPECT_THROW(build_mandelbrot_image(options), std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, BuildMandelbrotImageRejectsInvalidDimensions)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 0;
+    options.height = 10;
+
+    EXPECT_THROW(build_mandelbrot_image(options), std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, BuildMandelbrotImageRejectsInvalidIterationCount)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 10;
+    options.height = 10;
+    options.max_iterations = 0;
+
+    EXPECT_THROW(build_mandelbrot_image(options), std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, BuildMandelbrotImageSupportsSinglePixelGrid)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 1;
+    options.height = 1;
+    options.max_iterations = 20;
+
+    const std::vector<int> pixels = build_mandelbrot_image(options);
+    ASSERT_EQ(pixels.size(), 1U);
+}
+
+TEST(PlottingAppSuite, BuildMandelbrotImageMarksOriginAsInside)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 3;
+    options.height = 3;
+    options.max_iterations = 30;
+    options.x_min = -1.0;
+    options.x_max = 1.0;
+    options.y_min = -1.0;
+    options.y_max = 1.0;
+
+    const std::vector<int> pixels = build_mandelbrot_image(options);
+    const int center = pixels[4];
+    EXPECT_EQ(center, options.max_iterations + 1);
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataWritesMatrix)
+{
+    const std::string path = "test_mandelbrot_matrix.txt";
+    const std::vector<int> pixels{1, 2, 3, 4, 5, 6};
+    PlotOptions options;
+    options.width = 3;
+    options.height = 2;
+    options.x_min = -1.0;
+    options.x_max = 1.0;
+    options.y_min = -1.0;
+    options.y_max = 1.0;
+
+    write_mandelbrot_image_data(path, pixels, options);
+    const std::string content = read_file(path);
+    EXPECT_NE(content.find("-1 1 1"), std::string::npos);
+    EXPECT_NE(content.find("1 1 3"), std::string::npos);
+    EXPECT_NE(content.find("-1 -1 4"), std::string::npos);
+    EXPECT_NE(content.find("1 -1 6"), std::string::npos);
+    std::remove(path.c_str());
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataRejectsMismatchedSize)
+{
+    const std::vector<int> pixels{1, 2, 3};
+    PlotOptions options;
+    options.width = 2;
+    options.height = 2;
+    EXPECT_THROW(write_mandelbrot_image_data("invalid_matrix.txt", pixels, options),
+                 std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataRejectsInvalidDimensions)
+{
+    const std::vector<int> pixels{1};
+    PlotOptions options;
+    options.width = 0;
+    options.height = 1;
+
+    EXPECT_THROW(write_mandelbrot_image_data("invalid_matrix_dims.txt", pixels, options),
+                 std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataRejectsInvalidBounds)
+{
+    const std::vector<int> pixels{1};
+    PlotOptions options;
+    options.width = 1;
+    options.height = 1;
+    options.x_min = 2.0;
+    options.x_max = -2.0;
+
+    EXPECT_THROW(write_mandelbrot_image_data("invalid_matrix_bounds.txt", pixels, options),
+                 std::invalid_argument);
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataThrowsWhenFileCannotBeOpened)
+{
+    const std::vector<int> pixels{1};
+    PlotOptions options;
+    options.width = 1;
+    options.height = 1;
+
+    EXPECT_THROW(write_mandelbrot_image_data("does-not-exist-dir/matrix.txt", pixels, options),
+                 std::runtime_error);
+}
+
+TEST(PlottingAppSuite, WriteMandelbrotImageDataSupportsSinglePixelGrid)
+{
+    const std::string path = "test_mandelbrot_single_pixel.txt";
+    const std::vector<int> pixels{7};
+    PlotOptions options;
+    options.width = 1;
+    options.height = 1;
+    options.x_min = 0.0;
+    options.x_max = 1.0;
+    options.y_min = 0.0;
+    options.y_max = 1.0;
+
+    write_mandelbrot_image_data(path, pixels, options);
+    const std::string content = read_file(path);
+    EXPECT_NE(content.find("0 0 7"), std::string::npos);
+    std::remove(path.c_str());
+}
+
 TEST(PlottingAppSuite, RunPlottingAppCreatesAndCleansFile)
 {
     PlotOptions options;
     options.intervals = 4;
     options.interval_size = 1.0;
     options.temp_file = "test_run_plotting.txt";
+    options.invoke_gnuplot = false;
+
+    EXPECT_EQ(run_plotting_app(options), 0);
+
+    std::ifstream in(options.temp_file);
+    EXPECT_FALSE(in.good()) << "temp file should be removed after run";
+}
+
+TEST(PlottingAppSuite, RunPlottingAppMandelbrotCreatesAndCleansFile)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 16;
+    options.height = 12;
+    options.max_iterations = 40;
+    options.temp_file = "test_run_mandelbrot.txt";
     options.invoke_gnuplot = false;
 
     EXPECT_EQ(run_plotting_app(options), 0);
@@ -158,6 +332,42 @@ TEST(PlottingAppSuite, RunPlottingAppSkipsGnuplotWhenDisabledByEnv)
     setenv("PLOTTING_APP_NO_GNUPLOT", "1", 1);
     EXPECT_EQ(run_plotting_app(options), 0);
     unsetenv("PLOTTING_APP_NO_GNUPLOT");
+
+    std::ifstream in(options.temp_file);
+    EXPECT_FALSE(in.good()) << "temp file should be removed after run";
+}
+
+TEST(PlottingAppSuite, RunPlottingAppInvokesGnuplotForSampledDataWhenRequested)
+{
+    PlotOptions options;
+    options.intervals = 4;
+    options.interval_size = 1.0;
+    options.temp_file = "test_run_plotting_gnuplot.txt";
+    options.invoke_gnuplot = true;
+
+    setenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE", "1", 1);
+    unsetenv("PLOTTING_APP_NO_GNUPLOT");
+    EXPECT_EQ(run_plotting_app(options), 0);
+    unsetenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
+
+    std::ifstream in(options.temp_file);
+    EXPECT_FALSE(in.good()) << "temp file should be removed after run";
+}
+
+TEST(PlottingAppSuite, RunPlottingAppInvokesGnuplotForMandelbrotWhenRequested)
+{
+    PlotOptions options;
+    options.mandelbrot_mode = true;
+    options.width = 16;
+    options.height = 12;
+    options.max_iterations = 40;
+    options.temp_file = "test_run_mandelbrot_gnuplot.txt";
+    options.invoke_gnuplot = true;
+
+    setenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE", "1", 1);
+    unsetenv("PLOTTING_APP_NO_GNUPLOT");
+    EXPECT_EQ(run_plotting_app(options), 0);
+    unsetenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
 
     std::ifstream in(options.temp_file);
     EXPECT_FALSE(in.good()) << "temp file should be removed after run";

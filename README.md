@@ -7,7 +7,7 @@ The project is organized as testable libraries plus thin executable entrypoints,
 ## Targets
 
 - `Main`: interactive Mandelbrot membership prompt for a user-provided complex value.
-- `Plotting`: generates sample data and plots it through `gnuplot`.
+- `Plotting`: generates sampled function data or Mandelbrot-set image data and plots it through `gnuplot`.
 - `TestComplexNumbers`: unit tests for the complex number type.
 - `TestMandelbrot`: unit tests for Mandelbrot membership behavior.
 - `TestApps`: unit tests for app-layer logic (`main_app`, `plotting_app`).
@@ -54,12 +54,22 @@ The coverage script keeps generated `.gcov` files inside `.build/coverage-report
 The workspace includes ready-to-use tasks and debug configurations:
 
 - Configure: `CMake Configure (default)`
-- Build: `Build Interactive Mandelbrot`, `Build Plotting App`, `Build Complex Number Unit Tests`, `Build Mandelbrot Membership Tests`, `Build App Logic Unit Tests`
+- Build: `Build Interactive Mandelbrot`, `Build Plotting App`, `Build Complex Number Unit Tests`, `Build App Logic Unit Tests`
 - Run (No Debugger, from Run/Debug menu): `Run Interactive Mandelbrot (No Debugger)`
-- Debug (LLDB): `Debug Interactive Mandelbrot`, `Run Plotting App (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run App Logic Unit Tests`
-- Task-based no-debug fallback: `Run Interactive Mandelbrot (No Debugger)`
+- Debug (LLDB): `Debug Interactive Mandelbrot`, `Run Plotting App (Interactive GNUplot Window)`, `Run Mandelbrot Plot (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run App Logic Unit Tests`
 
-The interactive plotting launch passes `--gnuplot`; without that flag the `Plotting` executable stays non-interactive.
+The interactive plotting launch passes `--gnuplot`; without that flag the `Plotting` executable stays non-interactive. Use `--mandelbrot` to render a Mandelbrot image.
+
+For Mandelbrot zooming, the plotting executable accepts viewport flags:
+
+- `--xmin`, `--xmax`, `--ymin`, `--ymax`
+- `--width`, `--height`, `--max-iterations`
+
+Example:
+
+```bash
+.build/default/bin/Plotting --mandelbrot --gnuplot --width 1200 --height 900 --max-iterations 1200 --xmin -0.8 --xmax -0.7 --ymin 0.05 --ymax 0.15
+```
 
 For interactive input on macOS, prefer the no-debug run option first. It avoids debugger architecture friction and provides reliable stdin prompts.
 

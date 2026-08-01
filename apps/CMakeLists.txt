@@ -5,6 +5,7 @@ cppstuffmac_enable_warnings(mainapplogic)
 
 add_library(plottingapplogic plotting_app.cpp)
 target_include_directories(plottingapplogic PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(plottingapplogic PUBLIC mandelbrot)
 cppstuffmac_enable_warnings(plottingapplogic)
 
 add_executable(Main main.cpp)

@@ -1,11 +1,13 @@
 #include "plotting_app.hpp"
 
 #include <cmath>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <fstream>
 #include <memory>
 #include <stdexcept>
+
+#include "mandelbrot.hpp"
 
 namespace
 {
@@ -23,11 +25,43 @@ bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_
     std::fprintf(gnuplot_pipe.get(), "set ylabel \"y\"\n");
     std::fprintf(gnuplot_pipe.get(), "set key top right\n");
     std::fprintf(gnuplot_pipe.get(), "f(x)=sin(x)*cos(10*x)\n");
-    std::fprintf(
-        gnuplot_pipe.get(),
-        "plot [%g:%g] \"%s\" with lines title \"sampled data\", f(x) with lines lw 2 title \"f(x)=sin(x)*cos(10*x)\"\n",
-        x_min, x_max, file_path.c_str());
-    std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
+    std::fprintf(gnuplot_pipe.get(),
+                 "plot [%g:%g] \"%s\" with lines title \"sampled data\", f(x) with lines lw 2 "
+                 "title \"f(x)=sin(x)*cos(10*x)\"\n",
+                 x_min, x_max, file_path.c_str());
+    const char *skip_pause = std::getenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
+    if (!(skip_pause != nullptr && skip_pause[0] != '\0'))
+    {
+        std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
+    }
+    return true;
+}
+
+bool try_plot_mandelbrot_with_gnuplot(const PlotOptions &options)
+{
+    using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
+    PipeHandle gnuplot_pipe(popen("gnuplot -persist", "w"), pclose);
+    if (!gnuplot_pipe)
+    {
+        return false;
+    }
+
+    std::fprintf(gnuplot_pipe.get(), "set title \"Mandelbrot set\"\n");
+    std::fprintf(gnuplot_pipe.get(), "set xlabel \"Re(c)\"\n");
+    std::fprintf(gnuplot_pipe.get(), "set ylabel \"Im(c)\"\n");
+    std::fprintf(gnuplot_pipe.get(), "unset key\n");
+    std::fprintf(gnuplot_pipe.get(), "set size ratio -1\n");
+    std::fprintf(gnuplot_pipe.get(), "set view map\n");
+    std::fprintf(gnuplot_pipe.get(), "set xrange [%g:%g]\n", options.x_min, options.x_max);
+    std::fprintf(gnuplot_pipe.get(), "set yrange [%g:%g]\n", options.y_min, options.y_max);
+    std::fprintf(gnuplot_pipe.get(), "set palette rgbformulae 33,13,10\n");
+    std::fprintf(gnuplot_pipe.get(), "plot \"%s\" using 1:2:3 with image\n",
+                 options.temp_file.c_str());
+    const char *skip_pause = std::getenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
+    if (!(skip_pause != nullptr && skip_pause[0] != '\0'))
+    {
+        std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
+    }
     return true;
 }
 
@@ -94,8 +128,111 @@ void write_plot_data(const std::string &file_path, const std::vector<double> &x_
     }
 }
 
+std::vector<int> build_mandelbrot_image(const PlotOptions &options)
+{
+    if (options.width <= 0 || options.height <= 0)
+    {
+        throw std::invalid_argument("width and height must be positive");
+    }
+    if (options.max_iterations <= 0)
+    {
+        throw std::invalid_argument("max_iterations must be positive");
+    }
+    if (options.x_min >= options.x_max || options.y_min >= options.y_max)
+    {
+        throw std::invalid_argument("invalid plot bounds");
+    }
+
+    const int width = options.width;
+    const int height = options.height;
+    const double x_range = options.x_max - options.x_min;
+    const double y_range = options.y_max - options.y_min;
+
+    Mandelbrot set(options.max_iterations, true);
+    std::vector<int> pixels(static_cast<size_t>(width) * static_cast<size_t>(height), 0);
+
+    for (int row = 0; row < height; ++row)
+    {
+        const double y = (height == 1) ? options.y_min
+                                       : options.y_max - (static_cast<double>(row) * y_range) /
+                                                             static_cast<double>(height - 1);
+        for (int col = 0; col < width; ++col)
+        {
+            const double x = (width == 1) ? options.x_min
+                                          : options.x_min + (static_cast<double>(col) * x_range) /
+                                                                static_cast<double>(width - 1);
+            const int iters = set.iterations(Complex(x, y));
+            const size_t index =
+                static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(col);
+            pixels[index] = (iters < 0) ? (options.max_iterations + 1) : iters;
+        }
+    }
+
+    return pixels;
+}
+
+void write_mandelbrot_image_data(const std::string &file_path, const std::vector<int> &pixels,
+                                 const PlotOptions &options)
+{
+    const int width = options.width;
+    const int height = options.height;
+
+    if (width <= 0 || height <= 0)
+    {
+        throw std::invalid_argument("width and height must be positive");
+    }
+    if (options.x_min >= options.x_max || options.y_min >= options.y_max)
+    {
+        throw std::invalid_argument("invalid plot bounds");
+    }
+    if (pixels.size() != static_cast<size_t>(width) * static_cast<size_t>(height))
+    {
+        throw std::invalid_argument("pixels size does not match width*height");
+    }
+
+    std::ofstream output(file_path);
+    if (!output)
+    {
+        throw std::runtime_error("failed to open output file");
+    }
+
+    const double x_range = options.x_max - options.x_min;
+    const double y_range = options.y_max - options.y_min;
+
+    for (int row = 0; row < height; ++row)
+    {
+        const double y = (height == 1) ? options.y_min
+                                       : options.y_max - (static_cast<double>(row) * y_range) /
+                                                             static_cast<double>(height - 1);
+        for (int col = 0; col < width; ++col)
+        {
+            const double x = (width == 1) ? options.x_min
+                                          : options.x_min + (static_cast<double>(col) * x_range) /
+                                                                static_cast<double>(width - 1);
+            const size_t index =
+                static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(col);
+            output << x << ' ' << y << ' ' << pixels[index] << '\n';
+        }
+        output << '\n';
+    }
+}
+
 int run_plotting_app(const PlotOptions &options)
 {
+    if (options.mandelbrot_mode)
+    {
+        const std::vector<int> pixels = build_mandelbrot_image(options);
+        write_mandelbrot_image_data(options.temp_file, pixels, options);
+
+        if (should_invoke_gnuplot(options.invoke_gnuplot))
+        {
+            (void)try_plot_mandelbrot_with_gnuplot(options);
+        }
+
+        std::remove(options.temp_file.c_str());
+        return 0;
+    }
+
     const std::vector<double> x_data = build_x_data(options.intervals, options.interval_size);
     const std::vector<double> y_data = build_y_data(x_data);
     write_plot_data(options.temp_file, x_data, y_data);
