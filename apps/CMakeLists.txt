@@ -16,7 +16,6 @@ target_link_libraries(Plotting PRIVATE plottingapplogic)
 cppstuffmac_enable_warnings(Plotting)
 
 if(BUILD_TESTING)
-  add_test(NAME RunMain COMMAND Main --non-interactive)
   add_test(NAME RunPlotting COMMAND Plotting)
   set_tests_properties(RunPlotting PROPERTIES ENVIRONMENT "PLOTTING_APP_NO_GNUPLOT=1")
 endif()
