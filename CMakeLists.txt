@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(CppStuffMac VERSION 0.2.0 LANGUAGES CXX)
+project(CppStuffMac VERSION 0.3.0 LANGUAGES CXX)
 
 if(APPLE)
   execute_process(

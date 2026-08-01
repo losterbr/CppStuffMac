@@ -2,18 +2,20 @@
 
 Small C++ experiments around complex numbers, Mandelbrot set membership, terminal color output, and a plotting demo.
 
+The project is organized as testable libraries plus thin executable entrypoints, with CMake presets for reproducible local builds.
+
 ## Targets
 
 - `Main`: prints sample complex output and a Mandelbrot membership check.
 - `Plotting`: generates sample data and plots it through `gnuplot`.
 - `TestComplexNumbers`: unit tests for the complex number type.
 - `TestMandelbrot`: unit tests for Mandelbrot membership behavior.
+- `TestApps`: unit tests for app-layer logic (`main_app`, `plotting_app`).
 
 ## Requirements
 
 - CMake 3.21+
-- A C++20 compiler
-- Ninja (recommended through `CMakePresets.json`)
+- A C++20+ compiler (the build enables C++23 automatically when the toolchain supports it)
 - Optional: `gnuplot` for the plotting demo
 
 ## Build
@@ -23,7 +25,7 @@ cmake --preset default
 cmake --build --preset default
 ```
 
-This preset also generates a compilation database at:
+This preset configures `Unix Makefiles` into `.build/default` and also generates a compilation database at:
 
 - `.build/default/compile_commands.json`
 
@@ -32,6 +34,8 @@ This preset also generates a compilation database at:
 ```bash
 ctest --preset default
 ```
+
+You can also run individual test executables from `.build/default/bin/`.
 
 ## Coverage Build
 
@@ -45,12 +49,21 @@ ctest --preset coverage
 The coverage preset enables compiler instrumentation flags (`--coverage`) for supported toolchains.
 The coverage script keeps generated `.gcov` files inside `.build/coverage-report/gcov-files`.
 
+## VS Code
+
+The workspace includes ready-to-use tasks and debug configurations:
+
+- Configure: `CMake Configure (default)`
+- Build: `Build Main`, `Build Plotting`, `Build TestComplexNumbers`, `Build TestMandelbrot`, `Build TestApps`
+- Run/Debug: `Run Main`, `Run Plotting`, `Run TestComplexNumbers`, `Run TestMandelbrot`, `Run TestApps`
+
 ## Project Layout
 
 - `include/`: public headers
-- `src/`: library implementation files
-- `apps/`: runnable executables (`Main`, `Plotting`)
+- `src/`: core library implementation files
+- `apps/`: executable entrypoints and app-layer logic
 - `tests/unit/`: unit tests
+- `scripts/`: local automation scripts (coverage reporting)
 - `cmake/`: CMake helper modules
 - `CMakeLists.txt`: top-level project definition
 - `CMakePresets.json`: reproducible local build and test presets
