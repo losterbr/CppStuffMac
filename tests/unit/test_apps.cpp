@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -22,40 +23,40 @@ std::string read_file(const std::string &file_path)
 }
 } // namespace
 
-TEST(AppMainSuite, RunMainPromptsAndEvaluatesInput)
+TEST(InteractiveMandelbrotSuite, PromptsAndEvaluatesInput)
 {
     std::istringstream in("0.5 0\n");
     std::ostringstream out;
-    EXPECT_EQ(run_main_app_interactive(in, out), 0);
+    EXPECT_EQ(run_interactive_mandelbrot(in, out), 0);
     EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
     EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
     EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
 }
 
-TEST(AppMainSuite, RunMainWritesOutput)
+TEST(InteractiveMandelbrotSuite, WritesOutput)
 {
     std::istringstream in("0.5 0\n");
     std::ostringstream out;
-    EXPECT_EQ(run_main_app_interactive(in, out), 0);
+    EXPECT_EQ(run_interactive_mandelbrot(in, out), 0);
     EXPECT_FALSE(out.str().empty());
     EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
     EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
     EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
 }
 
-TEST(AppMainSuite, RunMainRejectsInvalidRealInput)
+TEST(InteractiveMandelbrotSuite, RejectsInvalidRealInput)
 {
     std::istringstream in("abc 0\n");
     std::ostringstream out;
-    EXPECT_EQ(run_main_app_interactive(in, out), 1);
+    EXPECT_EQ(run_interactive_mandelbrot(in, out), 1);
     EXPECT_NE(out.str().find("Invalid input for real part."), std::string::npos);
 }
 
-TEST(AppMainSuite, RunMainRejectsInvalidImaginaryInput)
+TEST(InteractiveMandelbrotSuite, RejectsInvalidImaginaryInput)
 {
     std::istringstream in("0.5 abc\n");
     std::ostringstream out;
-    EXPECT_EQ(run_main_app_interactive(in, out), 1);
+    EXPECT_EQ(run_interactive_mandelbrot(in, out), 1);
     EXPECT_NE(out.str().find("Invalid input for imaginary part."), std::string::npos);
 }
 
@@ -125,6 +126,13 @@ TEST(PlottingAppSuite, WritePlotDataRejectsMismatchedVectors)
     EXPECT_THROW(write_plot_data("invalid.txt", x, y), std::invalid_argument);
 }
 
+TEST(PlottingAppSuite, WritePlotDataThrowsWhenFileCannotBeOpened)
+{
+    const std::vector<double> x{0.0};
+    const std::vector<double> y{1.0};
+    EXPECT_THROW(write_plot_data("does-not-exist-dir/out.txt", x, y), std::runtime_error);
+}
+
 TEST(PlottingAppSuite, RunPlottingAppCreatesAndCleansFile)
 {
     PlotOptions options;
@@ -134,6 +142,22 @@ TEST(PlottingAppSuite, RunPlottingAppCreatesAndCleansFile)
     options.invoke_gnuplot = false;
 
     EXPECT_EQ(run_plotting_app(options), 0);
+
+    std::ifstream in(options.temp_file);
+    EXPECT_FALSE(in.good()) << "temp file should be removed after run";
+}
+
+TEST(PlottingAppSuite, RunPlottingAppSkipsGnuplotWhenDisabledByEnv)
+{
+    PlotOptions options;
+    options.intervals = 4;
+    options.interval_size = 1.0;
+    options.temp_file = "test_run_plotting_env.txt";
+    options.invoke_gnuplot = true;
+
+    setenv("PLOTTING_APP_NO_GNUPLOT", "1", 1);
+    EXPECT_EQ(run_plotting_app(options), 0);
+    unsetenv("PLOTTING_APP_NO_GNUPLOT");
 
     std::ifstream in(options.temp_file);
     EXPECT_FALSE(in.good()) << "temp file should be removed after run";

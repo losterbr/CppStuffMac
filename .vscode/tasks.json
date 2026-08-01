@@ -12,7 +12,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Build Main App",
+      "label": "Build Interactive Mandelbrot",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -89,10 +89,10 @@
       ]
     },
     {
-      "label": "Run Main App (No Debugger, Interactive Mandelbrot Prompt)",
+      "label": "Run Interactive Mandelbrot (No Debugger)",
       "type": "shell",
       "command": "${workspaceFolder}/.build/default/bin/Main",
-      "dependsOn": "Build Main App",
+      "dependsOn": "Build Interactive Mandelbrot",
       "problemMatcher": []
     }
   ]

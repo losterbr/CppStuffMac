@@ -4,7 +4,7 @@
 
 #include "mandelbrot.hpp"
 
-int run_main_app_interactive(std::istream &is, std::ostream &os)
+int run_interactive_mandelbrot(std::istream &is, std::ostream &os)
 {
     Mandelbrot set;
 

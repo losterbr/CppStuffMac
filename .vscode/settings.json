@@ -16,7 +16,7 @@
         "./.build/default/bin/TestApps": true,
         "printf": true,
         "./.build/default/bin/Main": true,
-        "AppMainSuite": true,
+        "InteractiveMandelbrotSuite": true,
         "/usr/local/opt/llvm/bin/clang-tidy": true,
         "/usr/local/opt/llvm/bin/clang-format": true,
         "clang-tidy": true,

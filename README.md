@@ -6,7 +6,7 @@ The project is organized as testable libraries plus thin executable entrypoints,
 
 ## Targets
 
-- `Main`: prints sample complex output and a Mandelbrot membership check.
+- `Main`: interactive Mandelbrot membership prompt for a user-provided complex value.
 - `Plotting`: generates sample data and plots it through `gnuplot`.
 - `TestComplexNumbers`: unit tests for the complex number type.
 - `TestMandelbrot`: unit tests for Mandelbrot membership behavior.
@@ -54,10 +54,10 @@ The coverage script keeps generated `.gcov` files inside `.build/coverage-report
 The workspace includes ready-to-use tasks and debug configurations:
 
 - Configure: `CMake Configure (default)`
-- Build: `Build Main App`, `Build Plotting App`, `Build Complex Number Unit Tests`, `Build Mandelbrot Membership Tests`, `Build App Logic Unit Tests`
-- Run (No Debugger, from Run/Debug menu): `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
-- Debug (LLDB): `Debug Main App (Interactive Mandelbrot Prompt)`, `Run Plotting App (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run App Logic Unit Tests`
-- Task-based no-debug fallback: `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
+- Build: `Build Interactive Mandelbrot`, `Build Plotting App`, `Build Complex Number Unit Tests`, `Build Mandelbrot Membership Tests`, `Build App Logic Unit Tests`
+- Run (No Debugger, from Run/Debug menu): `Run Interactive Mandelbrot (No Debugger)`
+- Debug (LLDB): `Debug Interactive Mandelbrot`, `Run Plotting App (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run App Logic Unit Tests`
+- Task-based no-debug fallback: `Run Interactive Mandelbrot (No Debugger)`
 
 The interactive plotting launch passes `--gnuplot`; without that flag the `Plotting` executable stays non-interactive.
 
