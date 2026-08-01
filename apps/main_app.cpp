@@ -1,8 +1,6 @@
 #include "main_app.hpp"
 
-#include <cstdlib>
 #include <iostream>
-#include <unistd.h>
 
 #include "complexnumbers.hpp"
 #include "mandelbrot.hpp"
@@ -10,23 +8,7 @@
 
 namespace
 {
-bool should_prompt_for_input(std::istream &is)
-{
-    const char *force_noninteractive = std::getenv("MAIN_APP_NONINTERACTIVE");
-    if (force_noninteractive != nullptr && force_noninteractive[0] != '\0')
-    {
-        return false;
-    }
-
-    if (&is != &std::cin)
-    {
-        return true;
-    }
-    return ::isatty(STDIN_FILENO) != 0;
-}
-} // namespace
-
-int run_main_app(std::istream &is, std::ostream &os)
+void write_main_intro(std::ostream &os)
 {
     os << Modifier(ForegroundCode::RED, BackgroundCode::GREEN);
     os << Complex();
@@ -35,11 +17,20 @@ int run_main_app(std::istream &is, std::ostream &os)
     Mandelbrot set;
     os << "is 0.5+0i outside set? " << std::boolalpha << set.isNotMandelbrot(Complex(0.5, 0.0))
        << '\n';
+}
+} // namespace
 
-    if (!should_prompt_for_input(is))
-    {
-        return 0;
-    }
+int run_main_app_noninteractive(std::ostream &os)
+{
+    write_main_intro(os);
+    return 0;
+}
+
+int run_main_app_interactive(std::istream &is, std::ostream &os)
+{
+    write_main_intro(os);
+
+    Mandelbrot set;
 
     double real = 0.0;
     os << "Enter real part: ";
