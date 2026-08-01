@@ -25,6 +25,9 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/.build/default/bin/Plotting",
+      "args": [
+        "--gnuplot"
+      ],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build Plotting App",
       "MIMode": "lldb",

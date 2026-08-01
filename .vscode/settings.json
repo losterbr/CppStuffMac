@@ -19,6 +19,7 @@
         "AppMainSuite": true,
         "/usr/local/opt/llvm/bin/clang-tidy": true,
         "/usr/local/opt/llvm/bin/clang-format": true,
-        "clang-tidy": true
+        "clang-tidy": true,
+        "./.build/default/bin/Plotting": true
     }
 }
