@@ -56,7 +56,7 @@ The workspace includes ready-to-use tasks and debug configurations:
 - Configure: `CMake Configure (default)`
 - Build: `Build Main App`, `Build Plotting App`, `Build Complex Number Unit Tests`, `Build Mandelbrot Membership Tests`, `Build App Logic Unit Tests`
 - Run (No Debugger, from Run/Debug menu): `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
-- Debug (LLDB): `Debug Main App (Interactive Mandelbrot Prompt)`, `Run Plotting App`, `Run Complex Number Unit Tests`, `Run Mandelbrot Membership Unit Tests (Non-interactive)`, `Run App Logic Unit Tests`
+- Debug (LLDB): `Debug Main App (Interactive Mandelbrot Prompt)`, `Run Plotting App (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run Mandelbrot Membership Unit Tests (Non-interactive)`, `Run App Logic Unit Tests`
 - Task-based no-debug fallback: `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
 
 For interactive input on macOS, prefer the no-debug run option first. It avoids debugger architecture friction and provides reliable stdin prompts.

@@ -21,12 +21,29 @@
       "externalConsole": false
     },
     {
-      "name": "Run Plotting App",
+      "name": "Run Plotting App (Interactive GNUplot Window)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/.build/default/bin/Plotting",
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build Plotting App",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
+    },
+    {
+      "name": "Run Plotting App (No GNUplot, Non-interactive)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/.build/default/bin/Plotting",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Plotting App",
+      "environment": [
+        {
+          "name": "PLOTTING_APP_NO_GNUPLOT",
+          "value": "1"
+        }
+      ],
       "MIMode": "lldb",
       "stopAtEntry": false,
       "externalConsole": false
