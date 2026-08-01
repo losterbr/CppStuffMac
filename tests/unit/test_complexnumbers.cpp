@@ -32,6 +32,8 @@ TEST(IntegerInputsSuite, basicsPolar)
   EXPECT_EQ(Complex(0., -1.).angle(), 3. * std::numbers::pi / 2.0) << "check angle";
   EXPECT_EQ(Complex(1., 1.).radius(), std::numbers::sqrt2) << "check 1+i";
   EXPECT_TRUE(std::abs(Complex(1., 1.).angle() - std::numbers::pi / 4.0) < std::numeric_limits<double>::epsilon()) << "check 1+i";
+  EXPECT_TRUE(std::abs(Complex(1., -1.).angle() - 7.0 * std::numbers::pi / 4.0) < std::numeric_limits<double>::epsilon()) << "check 1-i";
+  EXPECT_TRUE(std::abs(Complex(-1., -1.).angle() - 5.0 * std::numbers::pi / 4.0) < std::numeric_limits<double>::epsilon()) << "check -1-i";
 }
 
 TEST(IntegerInputsSuite, copyConstructor)
@@ -262,10 +264,4 @@ TEST(IntegerInputsSuite, ostream)
   Complex c;
   out << c;
   EXPECT_EQ("0+0i", out.str()) << "check equality";
-}
-
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

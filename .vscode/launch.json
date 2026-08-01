@@ -44,6 +44,17 @@
       "MIMode": "lldb",
       "stopAtEntry": false,
       "externalConsole": false
+    },
+    {
+      "name": "Run TestApps",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/.build/default/bin/TestApps",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build TestApps",
+      "MIMode": "lldb",
+      "stopAtEntry": false,
+      "externalConsole": false
     }
   ]
 }

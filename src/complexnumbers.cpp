@@ -60,7 +60,12 @@ double Complex::angle() const
         return (imaginary >= 0.0) ? std::numbers::pi / 2.0 : 3.0 * std::numbers::pi / 2.0;
     }
 
-    return std::acos(real / radius());
+    double theta = std::atan2(imaginary, real);
+    if (theta < 0.0)
+    {
+        theta += 2.0 * std::numbers::pi;
+    }
+    return theta;
 }
 
 bool operator==(const Complex &c1, const Complex &c2)

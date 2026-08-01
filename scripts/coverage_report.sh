@@ -45,7 +45,7 @@ awk '
     split(line, parts, "% of ")
     pct=parts[1]+0
     lines=parts[2]+0
-    if (file ~ /(\/src\/|\/apps\/)/) {
+    if (file ~ /(^|\/)src\/|(^|\/)apps\//) {
       total_lines += lines
       covered_lines += (pct / 100.0) * lines
       printf "%s\t%.2f%%\t%d lines\n", file, pct, lines

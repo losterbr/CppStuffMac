@@ -22,7 +22,6 @@
         "--target",
         "Main"
       ],
-      "dependsOn": "CMake Configure (default)",
       "problemMatcher": [
         "$gcc"
       ],
@@ -39,7 +38,6 @@
         "--target",
         "Plotting"
       ],
-      "dependsOn": "CMake Configure (default)",
       "problemMatcher": [
         "$gcc"
       ],
@@ -56,7 +54,6 @@
         "--target",
         "TestComplexNumbers"
       ],
-      "dependsOn": "CMake Configure (default)",
       "problemMatcher": [
         "$gcc"
       ]
@@ -72,7 +69,21 @@
         "--target",
         "TestMandelbrot"
       ],
-      "dependsOn": "CMake Configure (default)",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Build TestApps",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "default",
+        "--target",
+        "TestApps"
+      ],
       "problemMatcher": [
         "$gcc"
       ]
