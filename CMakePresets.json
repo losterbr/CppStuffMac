@@ -55,6 +55,9 @@
     {
       "name": "default",
       "configurePreset": "default",
+      "environment": {
+        "CTEST_PARALLEL_LEVEL": "8"
+      },
       "output": {
         "outputOnFailure": true
       }
@@ -62,6 +65,9 @@
     {
       "name": "coverage",
       "configurePreset": "coverage",
+      "environment": {
+        "CTEST_PARALLEL_LEVEL": "8"
+      },
       "output": {
         "outputOnFailure": true
       }

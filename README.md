@@ -32,7 +32,7 @@ This preset configures `Unix Makefiles` into `.build/default` and also generates
 ## Test
 
 ```bash
-ctest --preset default
+ctest --preset default --parallel
 ```
 
 You can also run individual test executables from `.build/default/bin/`.
@@ -42,7 +42,7 @@ You can also run individual test executables from `.build/default/bin/`.
 ```bash
 cmake --preset coverage
 cmake --build --preset coverage
-ctest --preset coverage
+ctest --preset coverage --parallel
 ./scripts/coverage_report.sh .build/coverage .build/coverage-report
 ```
 
