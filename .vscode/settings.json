@@ -12,6 +12,10 @@
         "git commit": true,
         "command": true,
         "clang-format": true,
-        "scripts/coverage_report.sh": true
+        "scripts/coverage_report.sh": true,
+        "./.build/default/bin/TestApps": true,
+        "printf": true,
+        "./.build/default/bin/Main": true,
+        "AppMainSuite": true
     }
 }
