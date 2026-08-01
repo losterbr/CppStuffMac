@@ -15,7 +15,6 @@
       "program": "${workspaceFolder}/.build/default/bin/Main",
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build Interactive Mandelbrot",
-      "targetArchitecture": "arm64",
       "MIMode": "lldb",
       "stopAtEntry": false,
       "externalConsole": false

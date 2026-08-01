@@ -2,16 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "CMake Configure (default)",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "--preset",
-        "default"
-      ],
-      "problemMatcher": []
-    },
-    {
       "label": "Build Interactive Mandelbrot",
       "type": "shell",
       "command": "cmake",
@@ -59,21 +49,6 @@
       ]
     },
     {
-      "label": "Build Mandelbrot Membership Tests",
-      "type": "shell",
-      "command": "cmake",
-      "args": [
-        "--build",
-        "--preset",
-        "default",
-        "--target",
-        "TestMandelbrot"
-      ],
-      "problemMatcher": [
-        "$gcc"
-      ]
-    },
-    {
       "label": "Build App Logic Unit Tests",
       "type": "shell",
       "command": "cmake",
@@ -87,13 +62,6 @@
       "problemMatcher": [
         "$gcc"
       ]
-    },
-    {
-      "label": "Run Interactive Mandelbrot (No Debugger)",
-      "type": "shell",
-      "command": "${workspaceFolder}/.build/default/bin/Main",
-      "dependsOn": "Build Interactive Mandelbrot",
-      "problemMatcher": []
     }
   ]
 }

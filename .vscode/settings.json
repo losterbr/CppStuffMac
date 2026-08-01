@@ -10,16 +10,22 @@
         "xcrun": true,
         "git add": true,
         "git commit": true,
-        "command": true,
         "clang-format": true,
         "scripts/coverage_report.sh": true,
         "./.build/default/bin/TestApps": true,
         "printf": true,
         "./.build/default/bin/Main": true,
-        "InteractiveMandelbrotSuite": true,
         "/usr/local/opt/llvm/bin/clang-tidy": true,
         "/usr/local/opt/llvm/bin/clang-format": true,
         "clang-tidy": true,
-        "./.build/default/bin/Plotting": true
+        "./.build/default/bin/Plotting": true,
+        "/^python3 -m json\\.tool \\.vscode/launch\\.json >/dev/null && python3 -m json\\.tool \\.vscode/tasks\\.json >/dev/null && python3 -m json\\.tool \\.vscode/settings\\.json >/dev/null && python3 -c \"import json,pathlib;root=pathlib\\.Path\\('\\.vscode'\\);launch=json\\.loads\\(\\(root/'launch\\.json'\\)\\.read_text\\(\\)\\);tasks=json\\.loads\\(\\(root/'tasks\\.json'\\)\\.read_text\\(\\)\\);refs=\\{c\\.get\\('preLaunchTask'\\) for c in launch\\.get\\('configurations',\\[\\]\\) if c\\.get\\('preLaunchTask'\\)\\};labels=\\{t\\.get\\('label'\\) for t in tasks\\.get\\('tasks',\\[\\]\\) if t\\.get\\('label'\\)\\};print\\('MISSING_REFERENCED_TASKS:',sorted\\(refs-labels\\)\\);print\\('UNUSED_TASKS:',sorted\\(labels-refs\\)\\);print\\('TASK_COUNT:',len\\(tasks\\.get\\('tasks',\\[\\]\\)\\)\\)\" && git status --short \\.vscode/launch\\.json \\.vscode/tasks\\.json \\.vscode/settings\\.json$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python3 -m json\\.tool \\.vscode/tasks\\.json >/dev/null && python3 -c \"import json,pathlib;root=pathlib\\.Path\\('\\.vscode'\\);launch=json\\.loads\\(\\(root/'launch\\.json'\\)\\.read_text\\(\\)\\);tasks=json\\.loads\\(\\(root/'tasks\\.json'\\)\\.read_text\\(\\)\\);refs=\\{c\\.get\\('preLaunchTask'\\) for c in launch\\.get\\('configurations',\\[\\]\\) if c\\.get\\('preLaunchTask'\\)\\};labels=\\{t\\.get\\('label'\\) for t in tasks\\.get\\('tasks',\\[\\]\\) if t\\.get\\('label'\\)\\};print\\('MISSING_REFERENCED_TASKS:',sorted\\(refs-labels\\)\\);print\\('UNUSED_TASKS:',sorted\\(labels-refs\\)\\);print\\('TASK_COUNT:',len\\(tasks\\.get\\('tasks',\\[\\]\\)\\)\\)\" && git status --short \\.vscode/tasks\\.json \\.vscode/launch\\.json \\.vscode/settings\\.json$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     }
 }
