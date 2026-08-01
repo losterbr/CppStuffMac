@@ -12,7 +12,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Build Main",
+      "label": "Build Main App",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -28,7 +28,7 @@
       "group": "build"
     },
     {
-      "label": "Build Plotting",
+      "label": "Build Plotting App",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -44,7 +44,7 @@
       "group": "build"
     },
     {
-      "label": "Build TestComplexNumbers",
+      "label": "Build Complex Number Unit Tests",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "label": "Build TestMandelbrot",
+      "label": "Build Mandelbrot Membership Tests",
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -74,7 +74,7 @@
       ]
     },
     {
-      "label": "Build TestApps",
+      "label": "Build App Logic Unit Tests",
       "type": "shell",
       "command": "cmake",
       "args": [

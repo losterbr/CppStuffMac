@@ -7,13 +7,13 @@
 #include "complexnumbers.hpp"
 #include <gtest/gtest.h>
 
-TEST(IntegerInputsSuite, constructor)
+TEST(ComplexNumbersSuite, constructor)
 {
   Complex actual;
   EXPECT_EQ(actual.im(), 0.) << actual;
   EXPECT_EQ(actual.re(), 0.) << actual;
 }
-TEST(IntegerInputsSuite, basics)
+TEST(ComplexNumbersSuite, basics)
 {
   Complex c(0., 0.);
   EXPECT_EQ(c.isZero(), true) << c;
@@ -23,7 +23,7 @@ TEST(IntegerInputsSuite, basics)
   EXPECT_EQ(Complex(1., 1.).isReal(), false) << c;
 }
 
-TEST(IntegerInputsSuite, basicsPolar)
+TEST(ComplexNumbersSuite, basicsPolar)
 {
   EXPECT_EQ(Complex().radius(), 0.) << "check is zero radius";
   EXPECT_THROW(Complex().angle(), std::invalid_argument) << "check throws";
@@ -36,7 +36,7 @@ TEST(IntegerInputsSuite, basicsPolar)
   EXPECT_TRUE(std::abs(Complex(-1., -1.).angle() - 5.0 * std::numbers::pi / 4.0) < std::numeric_limits<double>::epsilon()) << "check -1-i";
 }
 
-TEST(IntegerInputsSuite, copyConstructor)
+TEST(ComplexNumbersSuite, copyConstructor)
 {
   Complex original(5., 99.);
   Complex copy(original);
@@ -44,7 +44,7 @@ TEST(IntegerInputsSuite, copyConstructor)
   EXPECT_EQ(original.re(), copy.re()) << original << copy;
 }
 // comparison
-TEST(IntegerInputsSuite, equality)
+TEST(ComplexNumbersSuite, equality)
 {
   EXPECT_EQ(Complex() == Complex(1., 1.), false) << "check equality";
   EXPECT_EQ(Complex() == Complex(0., 1.), false) << "check equality";
@@ -52,7 +52,7 @@ TEST(IntegerInputsSuite, equality)
   EXPECT_EQ(Complex() == Complex(0., 0.), true) << "check equality";
 }
 
-TEST(IntegerInputsSuite, inequality)
+TEST(ComplexNumbersSuite, inequality)
 {
   EXPECT_EQ(Complex() != Complex(1., 1.), true) << "check equality";
   EXPECT_EQ(Complex() != Complex(0., 1.), true) << "check equality";
@@ -60,21 +60,21 @@ TEST(IntegerInputsSuite, inequality)
   EXPECT_EQ(Complex() != Complex(0., 0.), false) << "check equality";
 }
 // specific
-TEST(IntegerInputsSuite, conjugate)
+TEST(ComplexNumbersSuite, conjugate)
 {
   EXPECT_EQ(!Complex(2., 3.), Complex(2., -3.)) << "check equality";
   EXPECT_EQ(!Complex(2., 0.), Complex(2., 0)) << "check equality";
   EXPECT_EQ(!Complex(0., 3.), Complex(0., -3.)) << "check equality";
 }
 
-TEST(IntegerInputsSuite, absSquare)
+TEST(ComplexNumbersSuite, absSquare)
 {
   EXPECT_EQ(abs2(Complex(2., 3.)), 13.) << "check equality";
   EXPECT_EQ(abs2(Complex(-1., 0.)), 1.) << "check equality";
   EXPECT_EQ(abs2(Complex(0., -1.)), 1.) << "check equality";
 }
 
-TEST(IntegerInputsSuite, abs)
+TEST(ComplexNumbersSuite, abs)
 {
   EXPECT_EQ(abs(Complex(3., 4.)), 5.) << "check equality";
   EXPECT_EQ(abs(Complex(-1., 0.)), 1.) << "check equality";
@@ -82,19 +82,19 @@ TEST(IntegerInputsSuite, abs)
 }
 
 // Additions
-TEST(IntegerInputsSuite, additionAsignment)
+TEST(ComplexNumbersSuite, additionAsignment)
 {
   EXPECT_EQ(Complex(2., 3.) += Complex(1., 1.), Complex(3., 4.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) += Complex(1., 1.), Complex(-1., 4.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) += Complex(0., 0.), Complex(-2., 3.)) << "check equality";
 }
-TEST(IntegerInputsSuite, additionAsignmentReal)
+TEST(ComplexNumbersSuite, additionAsignmentReal)
 {
   EXPECT_EQ(Complex(2., 3.) += 1., Complex(3., 3.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) += 1., Complex(-1., 3.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) += 0., Complex(-2., 3.)) << "check equality";
 }
-TEST(IntegerInputsSuite, addition)
+TEST(ComplexNumbersSuite, addition)
 {
   EXPECT_EQ(Complex(2., 3.) + Complex(1., 0.), Complex(3., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) + Complex(0., 1.), Complex(2., 4.)) << "check equality";
@@ -106,7 +106,7 @@ TEST(IntegerInputsSuite, addition)
   EXPECT_EQ(a, Complex(1., 2.)) << "check equality";
   EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
 }
-TEST(IntegerInputsSuite, additionReal)
+TEST(ComplexNumbersSuite, additionReal)
 {
   EXPECT_EQ(Complex(2., 3.) + 1., Complex(3., 3.)) << "check equality";
   // check for side effects
@@ -118,21 +118,21 @@ TEST(IntegerInputsSuite, additionReal)
 }
 
 // subtractions
-TEST(IntegerInputsSuite, subtractionAsignment)
+TEST(ComplexNumbersSuite, subtractionAsignment)
 {
   EXPECT_EQ(Complex(2., 3.) -= Complex(1., 1.), Complex(1., 2.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) -= Complex(1., 1.), Complex(-3., 2.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) -= Complex(0., 0.), Complex(-2., 3.)) << "check equality";
 }
 
-TEST(IntegerInputsSuite, subtractionAsignmentReal)
+TEST(ComplexNumbersSuite, subtractionAsignmentReal)
 {
   EXPECT_EQ(Complex(2., 3.) -= 1., Complex(1., 3.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) -= 1., Complex(-3., 3.)) << "check equality";
   EXPECT_EQ(Complex(-2., 3.) -= 0., Complex(-2., 3.)) << "check equality";
 }
 
-TEST(IntegerInputsSuite, subtraction)
+TEST(ComplexNumbersSuite, subtraction)
 {
   EXPECT_EQ(Complex(2., 3.) - Complex(1., 0.), Complex(1., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) - Complex(0., 1.), Complex(2., 2.)) << "check equality";
@@ -145,7 +145,7 @@ TEST(IntegerInputsSuite, subtraction)
   EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
 }
 
-TEST(IntegerInputsSuite, subtractionReal)
+TEST(ComplexNumbersSuite, subtractionReal)
 {
   EXPECT_EQ(Complex(2., 3.) - 1., Complex(1., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) - 0., Complex(2., 3.)) << "check equality";
@@ -160,20 +160,20 @@ TEST(IntegerInputsSuite, subtractionReal)
 }
 
 // multiplication
-TEST(IntegerInputsSuite, multiplicationAsignment)
+TEST(ComplexNumbersSuite, multiplicationAsignment)
 {
   EXPECT_EQ(Complex(2., 3.) *= Complex(1., 0.), Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) *= Complex(0., 1.), Complex(-3., 2.)) << "check equality";
   EXPECT_EQ(Complex(0., 1.) *= Complex(0., 1.), Complex(-1., 0.)) << "check equality";
   EXPECT_EQ(Complex(2., 2.) *= Complex(2., 2.), Complex(0., 8.)) << "check equality";
 }
-TEST(IntegerInputsSuite, multiplicationAsignmentReal)
+TEST(ComplexNumbersSuite, multiplicationAsignmentReal)
 {
   EXPECT_EQ(Complex(2., 3.) *= 0., Complex(0., 0.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) *= 1., Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 2.) *= (-2.), Complex(-4., -4.)) << "check equality";
 }
-TEST(IntegerInputsSuite, multiplication)
+TEST(ComplexNumbersSuite, multiplication)
 {
   EXPECT_EQ(Complex(2., 3.) * Complex(1., 0.), Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) * Complex(0., 1.), Complex(-3., 2.)) << "check equality";
@@ -185,7 +185,7 @@ TEST(IntegerInputsSuite, multiplication)
   EXPECT_EQ(a, Complex(1., 2.)) << "check equality";
   EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
 }
-TEST(IntegerInputsSuite, multiplicationReal)
+TEST(ComplexNumbersSuite, multiplicationReal)
 {
   EXPECT_EQ(Complex(2., 3.) * 0., Complex(0., 0.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) * 1., Complex(2., 3.)) << "check equality";
@@ -199,7 +199,7 @@ TEST(IntegerInputsSuite, multiplicationReal)
   EXPECT_EQ(b, 3.) << "check equality";
 }
 // division
-TEST(IntegerInputsSuite, divisionAsignment)
+TEST(ComplexNumbersSuite, divisionAsignment)
 {
   EXPECT_EQ(Complex(2., 3.) /= Complex(1., 0.), Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) /= Complex(0., 1.), Complex(3., -2.)) << "check equality";
@@ -208,7 +208,7 @@ TEST(IntegerInputsSuite, divisionAsignment)
   EXPECT_THROW(Complex(2., 2.) /= Complex(), std::invalid_argument) << "check throws";
 }
 
-TEST(IntegerInputsSuite, divisionAsignmentReal)
+TEST(ComplexNumbersSuite, divisionAsignmentReal)
 {
   EXPECT_EQ(Complex(2., 3.) /= 1., Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 4.) /= 2., Complex(1., 2.)) << "check equality";
@@ -217,7 +217,7 @@ TEST(IntegerInputsSuite, divisionAsignmentReal)
   EXPECT_THROW(Complex(2., 2.) /= 0., std::invalid_argument) << "check throws";
 }
 
-TEST(IntegerInputsSuite, division)
+TEST(ComplexNumbersSuite, division)
 {
   EXPECT_EQ(Complex(2., 3.) / Complex(1., 0.), Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 3.) / Complex(0., 1.), Complex(3., -2.)) << "check equality";
@@ -229,7 +229,7 @@ TEST(IntegerInputsSuite, division)
   EXPECT_EQ(a, Complex(4., 4.)) << "check equality";
   EXPECT_EQ(b, Complex(2., 0.)) << "check equality";
 }
-TEST(IntegerInputsSuite, divisionReal)
+TEST(ComplexNumbersSuite, divisionReal)
 {
   EXPECT_EQ(Complex(2., 3.) / 1., Complex(2., 3.)) << "check equality";
   EXPECT_EQ(Complex(2., 4.) / 2., Complex(1., 2.)) << "check equality";
@@ -244,7 +244,7 @@ TEST(IntegerInputsSuite, divisionReal)
   EXPECT_EQ(b, 2.) << "check equality";
 }
 // sqrt
-TEST(IntegerInputsSuite, sqrt)
+TEST(ComplexNumbersSuite, sqrt)
 {
   EXPECT_EQ(sqrt(Complex(0., 0.)), Complex(0., 0.)) << "check equality";
   EXPECT_EQ(sqrt(Complex(1., 0.)), Complex(1., 0.)) << "check equality";
@@ -258,7 +258,7 @@ TEST(IntegerInputsSuite, sqrt)
   }
 }
 // stream
-TEST(IntegerInputsSuite, ostream)
+TEST(ComplexNumbersSuite, ostream)
 {
   std::ostringstream out;
   Complex c;

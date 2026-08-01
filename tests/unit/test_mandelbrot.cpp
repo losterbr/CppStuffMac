@@ -2,7 +2,7 @@
 #include "mandelbrot.hpp"
 #include <gtest/gtest.h>
 
-TEST(IntegerInputsSuite, notInMandelbrot)
+TEST(MandelbrotSuite, notInMandelbrot)
 {
     Mandelbrot m;
     const Complex data[]{
@@ -16,7 +16,7 @@ TEST(IntegerInputsSuite, notInMandelbrot)
     }
 }
 
-TEST(IntegerInputsSuite, inMandelbrot)
+TEST(MandelbrotSuite, inMandelbrot)
 {
     Mandelbrot m;
     const Complex data[]{
@@ -33,4 +33,23 @@ TEST(IntegerInputsSuite, inMandelbrot)
     {
         EXPECT_EQ(m.isNotMandelbrot(c), false) << c;
     }
+}
+
+TEST(MandelbrotSuite, iterationsForKnownExteriorPoint)
+{
+    Mandelbrot m;
+    EXPECT_EQ(m.iterations(Complex(2.0, 0.0)), 2);
+}
+
+TEST(MandelbrotSuite, iterationsForKnownInteriorPoint)
+{
+    Mandelbrot m;
+    EXPECT_EQ(m.iterations(Complex(0.0, 0.0)), -1);
+}
+
+TEST(MandelbrotSuite, membershipWithInternalShortcutsDisabled)
+{
+    Mandelbrot m(1000, false);
+    EXPECT_TRUE(m.isNotMandelbrot(Complex(0.5, 0.0)));
+    EXPECT_FALSE(m.isNotMandelbrot(Complex(0.0, 0.0)));
 }
