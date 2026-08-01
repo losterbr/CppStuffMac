@@ -8,17 +8,25 @@
 
 namespace
 {
-bool try_plot_with_gnuplot(const std::string &file_path)
+bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_max)
 {
     using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
-    PipeHandle gnuplot_pipe(popen("gnuplot", "w"), pclose);
+    PipeHandle gnuplot_pipe(popen("gnuplot -persist", "w"), pclose);
     if (!gnuplot_pipe)
     {
         return false;
     }
 
-    std::fprintf(gnuplot_pipe.get(), "plot \"%s\" with lines\n", file_path.c_str());
-    std::fprintf(gnuplot_pipe.get(), "exit\n");
+    std::fprintf(gnuplot_pipe.get(), "set title \"Sampled function plot\"\n");
+    std::fprintf(gnuplot_pipe.get(), "set xlabel \"x\"\n");
+    std::fprintf(gnuplot_pipe.get(), "set ylabel \"y\"\n");
+    std::fprintf(gnuplot_pipe.get(), "set key top right\n");
+    std::fprintf(gnuplot_pipe.get(), "f(x)=sin(x)*cos(10*x)\n");
+    std::fprintf(
+        gnuplot_pipe.get(),
+        "plot [%g:%g] \"%s\" with lines title \"sampled data\", f(x) with lines lw 2 title \"f(x)=sin(x)*cos(10*x)\"\n",
+        x_min, x_max, file_path.c_str());
+    std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
     return true;
 }
 } // namespace
@@ -82,7 +90,7 @@ int run_plotting_app(const PlotOptions &options)
 
     if (options.invoke_gnuplot)
     {
-        (void)try_plot_with_gnuplot(options.temp_file);
+        (void)try_plot_with_gnuplot(options.temp_file, x_data.front(), x_data.back());
     }
 
     std::remove(options.temp_file.c_str());

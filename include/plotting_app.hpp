@@ -7,7 +7,7 @@ struct PlotOptions
 {
     int intervals = 100;
     double interval_size = 1.0;
-    std::string temp_file = "tempData";
+    std::string temp_file = "/tmp/tempData";
     bool invoke_gnuplot = true;
 };
 
