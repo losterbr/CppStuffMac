@@ -16,7 +16,7 @@ class Mandelbrot
 public:
     explicit Mandelbrot(int max_iterations = default_max_iterations,
                         bool check_internalpoints = true);
-    Mandelbrot(const Mandelbrot &m);
+    Mandelbrot(const Mandelbrot &m) = default;
     ~Mandelbrot() = default;
 
     int iterations(Complex c) const;

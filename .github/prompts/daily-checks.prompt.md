@@ -17,6 +17,7 @@ Please run the full daily quality check for this C++ project and return a concis
    - formatting check against clang-format (check only, do not rewrite unless I ask)
 6. Coverage:
    - If coverage is already configured, run it and report total plus per-file weak spots.
+   - Use `./scripts/coverage_report.sh .build/coverage .build/coverage-report` so `.gcov` files stay out of the repo root.
    - If not configured, propose minimal setup and skip actual coverage run.
 7. Hygiene:
    - Check git status for unexpected generated files.

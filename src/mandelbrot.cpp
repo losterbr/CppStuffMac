@@ -3,9 +3,6 @@
 Mandelbrot::Mandelbrot(int max_iterations, bool check_internalpoints)
     : max_iterations(max_iterations), check_internalpoints(check_internalpoints) {}
 
-Mandelbrot::Mandelbrot(const Mandelbrot &m)
-    : max_iterations(m.max_iterations), check_internalpoints(m.check_internalpoints) {}
-
 bool Mandelbrot::inMainCardioid(Complex c) const
 {
     // https://iquilezles.org/www/articles/mset_1bulb/mset1bulb.htm

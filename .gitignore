@@ -23,12 +23,16 @@ compile_commands *.json
 # Build outputs
 *.o
 *.obj
+*.d
 *.a
 *.so
 *.dylib
 *.dll
 *.exe
+*.out
 *.gcov
+*.gcda
+*.gcno
 
 # Plotting scratch data
 tempData
@@ -38,3 +42,7 @@ tempData
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+
+# Misc local tooling outputs
+.cache/
+.idea/

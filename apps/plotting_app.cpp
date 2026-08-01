@@ -3,21 +3,22 @@
 #include <cmath>
 #include <cstdio>
 #include <fstream>
+#include <memory>
 #include <stdexcept>
 
 namespace
 {
 bool try_plot_with_gnuplot(const std::string &file_path)
 {
-    FILE *gnuplot_pipe = popen("gnuplot", "w");
-    if (gnuplot_pipe == nullptr)
+    using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
+    PipeHandle gnuplot_pipe(popen("gnuplot", "w"), pclose);
+    if (!gnuplot_pipe)
     {
         return false;
     }
 
-    std::fprintf(gnuplot_pipe, "plot \"%s\" with lines\n", file_path.c_str());
-    std::fprintf(gnuplot_pipe, "exit\n");
-    pclose(gnuplot_pipe);
+    std::fprintf(gnuplot_pipe.get(), "plot \"%s\" with lines\n", file_path.c_str());
+    std::fprintf(gnuplot_pipe.get(), "exit\n");
     return true;
 }
 } // namespace

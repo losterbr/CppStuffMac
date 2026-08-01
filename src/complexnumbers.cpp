@@ -18,24 +18,22 @@ bool Complex::tiny(double d)
 
 Complex::Complex(double r, double i) : real(r), imaginary(i) {}
 
-Complex::Complex(const Complex &c) : real(c.real), imaginary(c.imaginary) {}
-
-double Complex::re() const
+double Complex::re() const noexcept
 {
     return real;
 }
 
-double Complex::im() const
+double Complex::im() const noexcept
 {
     return imaginary;
 }
 
-bool Complex::isZero() const
+bool Complex::isZero() const noexcept
 {
     return tiny(real) && tiny(imaginary);
 }
 
-bool Complex::isReal() const
+bool Complex::isReal() const noexcept
 {
     return tiny(imaginary);
 }
@@ -65,13 +63,6 @@ double Complex::angle() const
     return std::acos(real / radius());
 }
 
-const Complex &Complex::operator=(const Complex &c)
-{
-    real = c.real;
-    imaginary = c.imaginary;
-    return *this;
-}
-
 bool operator==(const Complex &c1, const Complex &c2)
 {
     return c1.isZero() ? c2.isZero() : (std::abs(c1.re() - c2.re()) < two_epsilon && std::abs(c1.im() - c2.im()) < two_epsilon);
@@ -97,53 +88,53 @@ double abs(const Complex &c)
     return std::sqrt(abs2(c));
 }
 
-const Complex &Complex::operator+=(const Complex &c)
+Complex &Complex::operator+=(const Complex &c) noexcept
 {
     real += c.real;
     imaginary += c.imaginary;
     return *this;
 }
 
-const Complex &Complex::operator+=(double c)
+Complex &Complex::operator+=(double c) noexcept
 {
     real += c;
     return *this;
 }
 
-Complex Complex::operator+(const Complex &c) const
+Complex Complex::operator+(const Complex &c) const noexcept
 {
     return Complex(*this) += c;
 }
 
-Complex Complex::operator+(double c) const
+Complex Complex::operator+(double c) const noexcept
 {
     return Complex(*this) += c;
 }
 
-const Complex &Complex::operator-=(const Complex &c)
+Complex &Complex::operator-=(const Complex &c) noexcept
 {
     real -= c.real;
     imaginary -= c.imaginary;
     return *this;
 }
 
-const Complex &Complex::operator-=(double c)
+Complex &Complex::operator-=(double c) noexcept
 {
     real -= c;
     return *this;
 }
 
-Complex Complex::operator-(const Complex &c) const
+Complex Complex::operator-(const Complex &c) const noexcept
 {
     return Complex(*this) -= c;
 }
 
-Complex Complex::operator-(double c) const
+Complex Complex::operator-(double c) const noexcept
 {
     return Complex(*this) -= c;
 }
 
-const Complex &Complex::operator*=(const Complex &c)
+Complex &Complex::operator*=(const Complex &c) noexcept
 {
     const double prev_real = real;
     real = c.real * real - imaginary * c.imaginary;
@@ -151,24 +142,24 @@ const Complex &Complex::operator*=(const Complex &c)
     return *this;
 }
 
-const Complex &Complex::operator*=(double c)
+Complex &Complex::operator*=(double c) noexcept
 {
     real *= c;
     imaginary *= c;
     return *this;
 }
 
-Complex Complex::operator*(const Complex &c) const
+Complex Complex::operator*(const Complex &c) const noexcept
 {
     return Complex(*this) *= c;
 }
 
-Complex Complex::operator*(double c) const
+Complex Complex::operator*(double c) const noexcept
 {
     return Complex(*this) *= c;
 }
 
-const Complex &Complex::operator/=(double d)
+Complex &Complex::operator/=(double d)
 {
     if (tiny(d))
     {
@@ -179,7 +170,7 @@ const Complex &Complex::operator/=(double d)
     return *this;
 }
 
-const Complex &Complex::operator/=(const Complex &c)
+Complex &Complex::operator/=(const Complex &c)
 {
     if (c.isZero())
     {

@@ -26,6 +26,7 @@ Run a strict pre-commit gate on the current changes and tell me if this is safe 
    - suspicious API or ABI changes
 5. Coverage delta:
    - If coverage is configured, report whether changed lines are covered.
+   - Generate coverage data via `./scripts/coverage_report.sh .build/coverage .build/coverage-report` so `.gcov` files stay in a dedicated folder.
    - Enforce minimum overall project coverage (src + apps) > 90%; treat this as blocking.
    - If not configured, identify impacted code paths lacking tests.
 6. Commit recommendation:

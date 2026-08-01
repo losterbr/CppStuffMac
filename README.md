@@ -39,9 +39,11 @@ ctest --preset default
 cmake --preset coverage
 cmake --build --preset coverage
 ctest --preset coverage
+./scripts/coverage_report.sh .build/coverage .build/coverage-report
 ```
 
 The coverage preset enables compiler instrumentation flags (`--coverage`) for supported toolchains.
+The coverage script keeps generated `.gcov` files inside `.build/coverage-report/gcov-files`.
 
 ## Project Layout
 
