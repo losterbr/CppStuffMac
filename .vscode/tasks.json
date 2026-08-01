@@ -87,6 +87,13 @@
       "problemMatcher": [
         "$gcc"
       ]
+    },
+    {
+      "label": "Run Main App (No Debugger, Interactive Mandelbrot Prompt)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.build/default/bin/Main",
+      "dependsOn": "Build Main App",
+      "problemMatcher": []
     }
   ]
 }

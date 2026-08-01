@@ -9,6 +9,9 @@
         "ctest": true,
         "xcrun": true,
         "git add": true,
-        "git commit": true
+        "git commit": true,
+        "command": true,
+        "clang-format": true,
+        "scripts/coverage_report.sh": true
     }
 }

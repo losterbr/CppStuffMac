@@ -1,7 +1,5 @@
 #pragma once
 
 #include <iosfwd>
-#include <string>
 
-std::string build_main_output();
-int run_main_app(std::ostream &os);
+int run_main_app(std::istream &is, std::ostream &os);

@@ -1,6 +1,7 @@
 #include "plotting_app.hpp"
 
 #include <cmath>
+#include <cstdlib>
 #include <cstdio>
 #include <fstream>
 #include <memory>
@@ -28,6 +29,17 @@ bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_
         x_min, x_max, file_path.c_str());
     std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
     return true;
+}
+
+bool should_invoke_gnuplot(bool requested)
+{
+    if (!requested)
+    {
+        return false;
+    }
+
+    const char *disable_plot = std::getenv("PLOTTING_APP_NO_GNUPLOT");
+    return disable_plot == nullptr || disable_plot[0] == '\0';
 }
 } // namespace
 
@@ -88,7 +100,7 @@ int run_plotting_app(const PlotOptions &options)
     const std::vector<double> y_data = build_y_data(x_data);
     write_plot_data(options.temp_file, x_data, y_data);
 
-    if (options.invoke_gnuplot)
+    if (should_invoke_gnuplot(options.invoke_gnuplot))
     {
         (void)try_plot_with_gnuplot(options.temp_file, x_data.front(), x_data.back());
     }

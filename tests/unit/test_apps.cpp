@@ -21,18 +21,40 @@ std::string read_file(const std::string &file_path)
 }
 } // namespace
 
-TEST(AppMainSuite, BuildOutputContainsExpectedMarkers)
+TEST(AppMainSuite, RunMainIncludesInitialMandelbrotSample)
 {
-    const std::string output = build_main_output();
-    EXPECT_NE(output.find("0+0i"), std::string::npos);
-    EXPECT_NE(output.find("is 0.5+0i outside set? true"), std::string::npos);
+    std::istringstream in("0 0\n");
+    std::ostringstream out;
+    EXPECT_EQ(run_main_app(in, out), 0);
+    EXPECT_NE(out.str().find("0+0i"), std::string::npos);
+    EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
 }
 
 TEST(AppMainSuite, RunMainWritesOutput)
 {
+    std::istringstream in("0.5 0\n");
     std::ostringstream out;
-    EXPECT_EQ(run_main_app(out), 0);
+    EXPECT_EQ(run_main_app(in, out), 0);
     EXPECT_FALSE(out.str().empty());
+    EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
+    EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
+    EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
+}
+
+TEST(AppMainSuite, RunMainRejectsInvalidRealInput)
+{
+    std::istringstream in("abc 0\n");
+    std::ostringstream out;
+    EXPECT_EQ(run_main_app(in, out), 1);
+    EXPECT_NE(out.str().find("Invalid input for real part."), std::string::npos);
+}
+
+TEST(AppMainSuite, RunMainRejectsInvalidImaginaryInput)
+{
+    std::istringstream in("0.5 abc\n");
+    std::ostringstream out;
+    EXPECT_EQ(run_main_app(in, out), 1);
+    EXPECT_NE(out.str().find("Invalid input for imaginary part."), std::string::npos);
 }
 
 TEST(PlottingAppSuite, BuildXDataProducesExpectedRange)

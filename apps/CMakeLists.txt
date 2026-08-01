@@ -17,5 +17,7 @@ cppstuffmac_enable_warnings(Plotting)
 
 if(BUILD_TESTING)
   add_test(NAME RunMain COMMAND Main)
+  set_tests_properties(RunMain PROPERTIES ENVIRONMENT "MAIN_APP_NONINTERACTIVE=1")
   add_test(NAME RunPlotting COMMAND Plotting)
+  set_tests_properties(RunPlotting PROPERTIES ENVIRONMENT "PLOTTING_APP_NO_GNUPLOT=1")
 endif()

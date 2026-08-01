@@ -12,6 +12,8 @@ if [[ ! -d "${BUILD_DIR}" ]]; then
   exit 1
 fi
 
+BUILD_DIR_ABS="$(cd "${BUILD_DIR}" && pwd)"
+
 rm -rf "${GCOV_DIR}"
 mkdir -p "${GCOV_DIR}"
 : > "${SUMMARY_FILE}"
@@ -19,7 +21,7 @@ mkdir -p "${GCOV_DIR}"
 gcno_files=()
 while IFS= read -r file; do
   gcno_files+=("${file}")
-done < <(find "${BUILD_DIR}" -path '*/CMakeFiles/*.dir/*.cpp.gcno' | sort)
+done < <(find "${BUILD_DIR_ABS}" -path '*/CMakeFiles/*.dir/*.cpp.gcno' | sort)
 
 if [[ ${#gcno_files[@]} -eq 0 ]]; then
   echo "error: no .gcno files found under ${BUILD_DIR}" >&2

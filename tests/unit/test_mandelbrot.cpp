@@ -1,4 +1,3 @@
-#include <iostream>
 #include "mandelbrot.hpp"
 #include <gtest/gtest.h>
 

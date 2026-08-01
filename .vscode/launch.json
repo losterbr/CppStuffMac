@@ -2,12 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Main App",
+      "name": "Run Main App (No Debugger, Interactive Mandelbrot Prompt)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "cmake --build --preset default --target Main && \"${workspaceFolder}/.build/default/bin/Main\"",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug Main App (Interactive Mandelbrot Prompt)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/.build/default/bin/Main",
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build Main App",
+      "targetArchitecture": "arm64",
       "MIMode": "lldb",
       "stopAtEntry": false,
       "externalConsole": false
@@ -35,7 +43,7 @@
       "externalConsole": false
     },
     {
-      "name": "Run Mandelbrot Membership Tests",
+      "name": "Run Mandelbrot Membership Unit Tests (Non-interactive)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/.build/default/bin/TestMandelbrot",
