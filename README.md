@@ -32,6 +32,9 @@ ctest --preset default
 ## Project Layout
 
 - `include/`: public headers
-- `source/`: implementation and executable/test entry points
-- `CMakeLists.txt`: build definition
+- `src/`: library implementation files
+- `apps/`: runnable executables (`Main`, `Plotting`)
+- `tests/unit/`: unit tests
+- `cmake/`: CMake helper modules
+- `CMakeLists.txt`: top-level project definition
 - `CMakePresets.json`: reproducible local build and test presets
