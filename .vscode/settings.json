@@ -26,6 +26,10 @@
         "/^python3 -m json\\.tool \\.vscode/tasks\\.json >/dev/null && python3 -c \"import json,pathlib;root=pathlib\\.Path\\('\\.vscode'\\);launch=json\\.loads\\(\\(root/'launch\\.json'\\)\\.read_text\\(\\)\\);tasks=json\\.loads\\(\\(root/'tasks\\.json'\\)\\.read_text\\(\\)\\);refs=\\{c\\.get\\('preLaunchTask'\\) for c in launch\\.get\\('configurations',\\[\\]\\) if c\\.get\\('preLaunchTask'\\)\\};labels=\\{t\\.get\\('label'\\) for t in tasks\\.get\\('tasks',\\[\\]\\) if t\\.get\\('label'\\)\\};print\\('MISSING_REFERENCED_TASKS:',sorted\\(refs-labels\\)\\);print\\('UNUSED_TASKS:',sorted\\(labels-refs\\)\\);print\\('TASK_COUNT:',len\\(tasks\\.get\\('tasks',\\[\\]\\)\\)\\)\" && git status --short \\.vscode/tasks\\.json \\.vscode/launch\\.json \\.vscode/settings\\.json$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^python3 -m json\\.tool \\.vscode/launch\\.json >/dev/null && cmake --build --preset default && ctest --preset default --output-on-failure$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }
