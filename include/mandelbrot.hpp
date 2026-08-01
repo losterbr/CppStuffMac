@@ -10,8 +10,8 @@ class Mandelbrot
     static const double DIVERGENCE_RADIUS_SQUARE;
     static const int default_max_iterations = 1000;
 
-    bool inMainCardioid(Complex c) const;
-    bool inPerio2Bulb(Complex c) const;
+    bool inMainCardioid(const Complex &c) const;
+    bool inPerio2Bulb(const Complex &c) const;
 
 public:
     explicit Mandelbrot(int max_iterations = default_max_iterations,
@@ -19,6 +19,6 @@ public:
     Mandelbrot(const Mandelbrot &m) = default;
     ~Mandelbrot() = default;
 
-    int iterations(Complex c) const;
+    int iterations(const Complex &c) const;
     bool isNotMandelbrot(const Complex &c) const;
 };
