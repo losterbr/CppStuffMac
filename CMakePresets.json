@@ -24,6 +24,17 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "coverage",
+      "displayName": "Coverage (Unix Makefiles)",
+      "inherits": "default",
+      "binaryDir": "${sourceDir}/.build/coverage",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CPPSTUFFMAC_ENABLE_COVERAGE": "ON",
+        "CPPSTUFFMAC_ENABLE_WARNINGS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -34,12 +45,23 @@
     {
       "name": "release",
       "configurePreset": "release"
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage"
     }
   ],
   "testPresets": [
     {
       "name": "default",
       "configurePreset": "default",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage",
       "output": {
         "outputOnFailure": true
       }

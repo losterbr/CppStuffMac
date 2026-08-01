@@ -3,5 +3,14 @@
     "files.exclude": {
         "**/.build": true,
         "**/build": true
+    },
+    "chat.tools.terminal.autoApprove": {
+        "cmake": true,
+        "ctest": true,
+        "xcrun": true,
+        "set": true,
+        "/bin/zsh": true,
+        "git add": true,
+        "git commit": true
     }
 }

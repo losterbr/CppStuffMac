@@ -15,6 +15,7 @@ enable_testing()
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Keep build outputs grouped in predictable folders.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -22,6 +23,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 option(CPPSTUFFMAC_ENABLE_WARNINGS "Enable strict compiler warnings" ON)
+option(CPPSTUFFMAC_ENABLE_COVERAGE "Enable coverage instrumentation flags" OFF)
+
+if(CPPSTUFFMAC_ENABLE_COVERAGE)
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    add_compile_options(-O0 -g --coverage)
+    add_link_options(--coverage)
+  else()
+    message(WARNING "Coverage is enabled but unsupported for compiler: ${CMAKE_CXX_COMPILER_ID}")
+  endif()
+endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/CompilerWarnings.cmake)
 

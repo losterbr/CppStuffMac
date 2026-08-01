@@ -23,11 +23,25 @@ cmake --preset default
 cmake --build --preset default
 ```
 
+This preset also generates a compilation database at:
+
+- `.build/default/compile_commands.json`
+
 ## Test
 
 ```bash
 ctest --preset default
 ```
+
+## Coverage Build
+
+```bash
+cmake --preset coverage
+cmake --build --preset coverage
+ctest --preset coverage
+```
+
+The coverage preset enables compiler instrumentation flags (`--coverage`) for supported toolchains.
 
 ## Project Layout
 
