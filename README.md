@@ -22,7 +22,7 @@ The project is organized as testable libraries plus thin executable entrypoints,
 
 ```bash
 cmake --preset default
-cmake --build --preset default
+cmake --build --preset default --parallel
 ```
 
 This preset configures `Unix Makefiles` into `.build/default` and also generates a compilation database at:
@@ -41,7 +41,7 @@ You can also run individual test executables from `.build/default/bin/`.
 
 ```bash
 cmake --preset coverage
-cmake --build --preset coverage
+cmake --build --preset coverage --parallel
 ctest --preset coverage --parallel
 ./scripts/coverage_report.sh .build/coverage .build/coverage-report
 ```
@@ -58,6 +58,8 @@ The workspace includes ready-to-use tasks and debug configurations:
 - Run (No Debugger, from Run/Debug menu): `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
 - Debug (LLDB): `Debug Main App (Interactive Mandelbrot Prompt)`, `Run Plotting App (Interactive GNUplot Window)`, `Run Plotting App (No GNUplot, Non-interactive)`, `Run Complex Number Unit Tests`, `Run Mandelbrot Membership Unit Tests (Non-interactive)`, `Run App Logic Unit Tests`
 - Task-based no-debug fallback: `Run Main App (No Debugger, Interactive Mandelbrot Prompt)`
+
+The interactive plotting launch passes `--gnuplot`; without that flag the `Plotting` executable stays non-interactive.
 
 For interactive input on macOS, prefer the no-debug run option first. It avoids debugger architecture friction and provides reliable stdin prompts.
 

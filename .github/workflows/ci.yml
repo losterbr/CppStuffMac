@@ -21,7 +21,7 @@ jobs:
         run: cmake --preset ${{ matrix.preset }}
 
       - name: Build
-        run: cmake --build --preset ${{ matrix.preset }}
+        run: cmake --build --preset ${{ matrix.preset }} --parallel
 
       - name: Test
         run: ctest --preset ${{ matrix.preset }} --parallel
