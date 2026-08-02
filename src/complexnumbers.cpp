@@ -11,37 +11,19 @@ namespace
 constexpr double two_epsilon = 2.0 * std::numeric_limits<double>::epsilon();
 }
 
-bool Complex::tiny(double d)
-{
-    return std::abs(d) < two_epsilon;
-}
+bool Complex::tiny(double d) { return std::abs(d) < two_epsilon; }
 
 Complex::Complex(double r, double i) : real(r), imaginary(i) {}
 
-double Complex::re() const noexcept
-{
-    return real;
-}
+double Complex::re() const noexcept { return real; }
 
-double Complex::im() const noexcept
-{
-    return imaginary;
-}
+double Complex::im() const noexcept { return imaginary; }
 
-bool Complex::isZero() const noexcept
-{
-    return tiny(real) && tiny(imaginary);
-}
+bool Complex::isZero() const noexcept { return tiny(real) && tiny(imaginary); }
 
-bool Complex::isReal() const noexcept
-{
-    return tiny(imaginary);
-}
+bool Complex::isReal() const noexcept { return tiny(imaginary); }
 
-double Complex::radius() const
-{
-    return abs(*this);
-}
+double Complex::radius() const { return abs(*this); }
 
 double Complex::angle() const
 {
@@ -70,28 +52,18 @@ double Complex::angle() const
 
 bool operator==(const Complex &c1, const Complex &c2)
 {
-    return c1.isZero() ? c2.isZero() : (std::abs(c1.re() - c2.re()) < two_epsilon && std::abs(c1.im() - c2.im()) < two_epsilon);
+    return c1.isZero() ? c2.isZero()
+                       : (std::abs(c1.re() - c2.re()) < two_epsilon &&
+                          std::abs(c1.im() - c2.im()) < two_epsilon);
 }
 
-bool operator!=(const Complex &c1, const Complex &c2)
-{
-    return !(c1 == c2);
-}
+bool operator!=(const Complex &c1, const Complex &c2) { return !(c1 == c2); }
 
-Complex operator!(const Complex &c)
-{
-    return Complex(c.re(), -c.im());
-}
+Complex operator!(const Complex &c) { return Complex(c.re(), -c.im()); }
 
-double abs2(const Complex &c)
-{
-    return c.re() * c.re() + c.im() * c.im();
-}
+double abs2(const Complex &c) { return c.re() * c.re() + c.im() * c.im(); }
 
-double abs(const Complex &c)
-{
-    return std::sqrt(abs2(c));
-}
+double abs(const Complex &c) { return std::sqrt(abs2(c)); }
 
 Complex &Complex::operator+=(const Complex &c) noexcept
 {
@@ -106,15 +78,9 @@ Complex &Complex::operator+=(double c) noexcept
     return *this;
 }
 
-Complex Complex::operator+(const Complex &c) const noexcept
-{
-    return Complex(*this) += c;
-}
+Complex Complex::operator+(const Complex &c) const noexcept { return Complex(*this) += c; }
 
-Complex Complex::operator+(double c) const noexcept
-{
-    return Complex(*this) += c;
-}
+Complex Complex::operator+(double c) const noexcept { return Complex(*this) += c; }
 
 Complex &Complex::operator-=(const Complex &c) noexcept
 {
@@ -129,15 +95,9 @@ Complex &Complex::operator-=(double c) noexcept
     return *this;
 }
 
-Complex Complex::operator-(const Complex &c) const noexcept
-{
-    return Complex(*this) -= c;
-}
+Complex Complex::operator-(const Complex &c) const noexcept { return Complex(*this) -= c; }
 
-Complex Complex::operator-(double c) const noexcept
-{
-    return Complex(*this) -= c;
-}
+Complex Complex::operator-(double c) const noexcept { return Complex(*this) -= c; }
 
 Complex &Complex::operator*=(const Complex &c) noexcept
 {
@@ -154,15 +114,9 @@ Complex &Complex::operator*=(double c) noexcept
     return *this;
 }
 
-Complex Complex::operator*(const Complex &c) const noexcept
-{
-    return Complex(*this) *= c;
-}
+Complex Complex::operator*(const Complex &c) const noexcept { return Complex(*this) *= c; }
 
-Complex Complex::operator*(double c) const noexcept
-{
-    return Complex(*this) *= c;
-}
+Complex Complex::operator*(double c) const noexcept { return Complex(*this) *= c; }
 
 Complex &Complex::operator/=(double d)
 {
@@ -186,15 +140,9 @@ Complex &Complex::operator/=(const Complex &c)
     return *this;
 }
 
-Complex Complex::operator/(const Complex &c) const
-{
-    return Complex(*this) /= c;
-}
+Complex Complex::operator/(const Complex &c) const { return Complex(*this) /= c; }
 
-Complex Complex::operator/(double c) const
-{
-    return Complex(*this) /= c;
-}
+Complex Complex::operator/(double c) const { return Complex(*this) /= c; }
 
 Complex sqrt(const Complex &c)
 {

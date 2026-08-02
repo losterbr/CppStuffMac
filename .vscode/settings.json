@@ -1,5 +1,8 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.configurePreset": "default",
+    "cmake.buildPreset": "default",
+    "cmake.testPreset": "default",
     "files.exclude": {
         "**/.build": true,
         "**/build": true
