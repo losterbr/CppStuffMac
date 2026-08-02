@@ -32,6 +32,7 @@ bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_
         return false;
     }
 
+    std::fprintf(gnuplot_pipe.get(), "set term qt font \"Helvetica,10\"\n");
     std::fprintf(gnuplot_pipe.get(), "set title \"Sampled function plot\"\n");
     std::fprintf(gnuplot_pipe.get(), "set xlabel \"x\"\n");
     std::fprintf(gnuplot_pipe.get(), "set ylabel \"y\"\n");
@@ -60,6 +61,7 @@ bool try_plot_mandelbrot_with_gnuplot(const PlotOptions &options)
         return false;
     }
 
+    std::fprintf(gnuplot_pipe.get(), "set term qt font \"Helvetica,10\"\n");
     std::fprintf(gnuplot_pipe.get(), "set title \"Mandelbrot set\"\n");
     std::fprintf(gnuplot_pipe.get(), "set xlabel \"Re(c)\"\n");
     std::fprintf(gnuplot_pipe.get(), "set ylabel \"Im(c)\"\n");
