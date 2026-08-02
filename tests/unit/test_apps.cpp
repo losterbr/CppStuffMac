@@ -345,9 +345,11 @@ TEST(PlottingAppSuite, RunPlottingAppInvokesGnuplotForSampledDataWhenRequested)
     options.temp_file = "test_run_plotting_gnuplot.txt";
     options.invoke_gnuplot = true;
 
+    setenv("PLOTTING_APP_GNUPLOT_COMMAND", "cat >/dev/null", 1);
     setenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE", "1", 1);
     unsetenv("PLOTTING_APP_NO_GNUPLOT");
     EXPECT_EQ(run_plotting_app(options), 0);
+    unsetenv("PLOTTING_APP_GNUPLOT_COMMAND");
     unsetenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
 
     std::ifstream in(options.temp_file);
@@ -364,9 +366,11 @@ TEST(PlottingAppSuite, RunPlottingAppInvokesGnuplotForMandelbrotWhenRequested)
     options.temp_file = "test_run_mandelbrot_gnuplot.txt";
     options.invoke_gnuplot = true;
 
+    setenv("PLOTTING_APP_GNUPLOT_COMMAND", "cat >/dev/null", 1);
     setenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE", "1", 1);
     unsetenv("PLOTTING_APP_NO_GNUPLOT");
     EXPECT_EQ(run_plotting_app(options), 0);
+    unsetenv("PLOTTING_APP_GNUPLOT_COMMAND");
     unsetenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
 
     std::ifstream in(options.temp_file);

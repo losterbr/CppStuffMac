@@ -5,16 +5,28 @@
 #include <cstdlib>
 #include <fstream>
 #include <memory>
+#include <string>
 #include <stdexcept>
 
 #include "mandelbrot.hpp"
 
 namespace
 {
+std::string gnuplot_command()
+{
+    const char *command = std::getenv("PLOTTING_APP_GNUPLOT_COMMAND");
+    if (command != nullptr && command[0] != '\0')
+    {
+        return command;
+    }
+    return "gnuplot -persist";
+}
+
 bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_max)
 {
     using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
-    PipeHandle gnuplot_pipe(popen("gnuplot -persist", "w"), pclose);
+    const std::string command = gnuplot_command();
+    PipeHandle gnuplot_pipe(popen(command.c_str(), "w"), pclose);
     if (!gnuplot_pipe)
     {
         return false;
@@ -24,6 +36,7 @@ bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_
     std::fprintf(gnuplot_pipe.get(), "set xlabel \"x\"\n");
     std::fprintf(gnuplot_pipe.get(), "set ylabel \"y\"\n");
     std::fprintf(gnuplot_pipe.get(), "set key top right\n");
+    std::fprintf(gnuplot_pipe.get(), "set mouse\n");
     std::fprintf(gnuplot_pipe.get(), "f(x)=sin(x)*cos(10*x)\n");
     std::fprintf(gnuplot_pipe.get(),
                  "plot [%g:%g] \"%s\" with lines title \"sampled data\", f(x) with lines lw 2 "
@@ -40,7 +53,8 @@ bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_
 bool try_plot_mandelbrot_with_gnuplot(const PlotOptions &options)
 {
     using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
-    PipeHandle gnuplot_pipe(popen("gnuplot -persist", "w"), pclose);
+    const std::string command = gnuplot_command();
+    PipeHandle gnuplot_pipe(popen(command.c_str(), "w"), pclose);
     if (!gnuplot_pipe)
     {
         return false;
@@ -52,6 +66,7 @@ bool try_plot_mandelbrot_with_gnuplot(const PlotOptions &options)
     std::fprintf(gnuplot_pipe.get(), "unset key\n");
     std::fprintf(gnuplot_pipe.get(), "set size ratio -1\n");
     std::fprintf(gnuplot_pipe.get(), "set view map\n");
+    std::fprintf(gnuplot_pipe.get(), "set mouse\n");
     std::fprintf(gnuplot_pipe.get(), "set xrange [%g:%g]\n", options.x_min, options.x_max);
     std::fprintf(gnuplot_pipe.get(), "set yrange [%g:%g]\n", options.y_min, options.y_max);
     std::fprintf(gnuplot_pipe.get(), "set palette rgbformulae 33,13,10\n");
