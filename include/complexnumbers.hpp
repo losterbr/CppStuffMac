@@ -19,7 +19,7 @@ public:
     [[nodiscard]] bool isZero() const noexcept;
     [[nodiscard]] bool isReal() const noexcept;
     [[nodiscard]] double radius() const;
-    double angle() const;
+    [[nodiscard]] double angle() const;
 
     Complex &operator=(const Complex &c) = default;
 

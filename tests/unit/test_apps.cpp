@@ -30,7 +30,11 @@ TEST(InteractiveMandelbrotSuite, PromptsAndEvaluatesInput)
     EXPECT_EQ(run_interactive_mandelbrot(in, out), 0);
     EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
     EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
-    EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
+
+    std::ostringstream expected;
+    expected << "is 0.5+0i outside set? " << Modifier(ForegroundCode::GREEN) << "true"
+             << Modifier();
+    EXPECT_NE(out.str().find(expected.str()), std::string::npos);
 }
 
 TEST(InteractiveMandelbrotSuite, WritesOutput)
@@ -41,7 +45,11 @@ TEST(InteractiveMandelbrotSuite, WritesOutput)
     EXPECT_FALSE(out.str().empty());
     EXPECT_NE(out.str().find("Enter real part:"), std::string::npos);
     EXPECT_NE(out.str().find("Enter imaginary part:"), std::string::npos);
-    EXPECT_NE(out.str().find("is 0.5+0i outside set? true"), std::string::npos);
+
+    std::ostringstream expected;
+    expected << "is 0.5+0i outside set? " << Modifier(ForegroundCode::GREEN) << "true"
+             << Modifier();
+    EXPECT_NE(out.str().find(expected.str()), std::string::npos);
 }
 
 TEST(InteractiveMandelbrotSuite, RejectsInvalidRealInput)

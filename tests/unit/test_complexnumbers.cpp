@@ -25,7 +25,7 @@ TEST(ComplexNumbersSuite, basics)
 TEST(ComplexNumbersSuite, basicsPolar)
 {
     EXPECT_EQ(Complex().radius(), 0.) << "check is zero radius";
-    EXPECT_THROW(Complex().angle(), std::invalid_argument) << "check throws";
+    EXPECT_THROW((void)Complex().angle(), std::invalid_argument) << "check throws";
     EXPECT_EQ(Complex(0., 1.).angle(), std::numbers::pi / 2.0) << "check angle";
     EXPECT_EQ(Complex(-1., 0.).angle(), std::numbers::pi) << "check angle";
     EXPECT_EQ(Complex(0., -1.).angle(), 3. * std::numbers::pi / 2.0) << "check angle";

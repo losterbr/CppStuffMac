@@ -4,14 +4,14 @@ function(cppstuffmac_enable_warnings target_name)
   endif()
 
   if(MSVC)
-    target_compile_options(${target_name} PRIVATE /W4)
+    target_compile_options(${target_name} PRIVATE /W4 /WX)
   else()
     target_compile_options(${target_name} PRIVATE
       -Wall
       -Wextra
       -Wpedantic
-      -Wno-unused-parameter
-      -Wno-unused-variable
+      -Wshadow
+      -Werror
     )
   endif()
 endfunction()

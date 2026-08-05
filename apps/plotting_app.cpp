@@ -12,6 +12,8 @@
 
 namespace
 {
+using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
+
 std::string gnuplot_command()
 {
     const char *command = std::getenv("PLOTTING_APP_GNUPLOT_COMMAND");
@@ -22,63 +24,67 @@ std::string gnuplot_command()
     return "gnuplot -persist";
 }
 
+PipeHandle open_gnuplot_pipe()
+{
+    return PipeHandle(popen(gnuplot_command().c_str(), "w"), pclose);
+}
+
+void write_gnuplot_header(FILE *pipe, const std::string &title, const std::string &xlabel,
+                          const std::string &ylabel)
+{
+    std::fprintf(pipe, "set term qt font \"Helvetica,10\"\n");
+    std::fprintf(pipe, "set title \"%s\"\n", title.c_str());
+    std::fprintf(pipe, "set xlabel \"%s\"\n", xlabel.c_str());
+    std::fprintf(pipe, "set ylabel \"%s\"\n", ylabel.c_str());
+    std::fprintf(pipe, "set mouse\n");
+}
+
+void write_gnuplot_pause(FILE *pipe)
+{
+    const char *skip_pause = std::getenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
+    if (!(skip_pause != nullptr && skip_pause[0] != '\0'))
+    {
+        std::fprintf(pipe, "pause mouse close\n");
+    }
+}
+
 bool try_plot_with_gnuplot(const std::string &file_path, double x_min, double x_max)
 {
-    using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
-    const std::string command = gnuplot_command();
-    PipeHandle gnuplot_pipe(popen(command.c_str(), "w"), pclose);
+    PipeHandle gnuplot_pipe = open_gnuplot_pipe();
     if (!gnuplot_pipe)
     {
         return false;
     }
 
-    std::fprintf(gnuplot_pipe.get(), "set term qt font \"Helvetica,10\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set title \"Sampled function plot\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set xlabel \"x\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set ylabel \"y\"\n");
+    write_gnuplot_header(gnuplot_pipe.get(), "Sampled function plot", "x", "y");
     std::fprintf(gnuplot_pipe.get(), "set key top right\n");
-    std::fprintf(gnuplot_pipe.get(), "set mouse\n");
     std::fprintf(gnuplot_pipe.get(), "f(x)=sin(x)*cos(10*x)\n");
     std::fprintf(gnuplot_pipe.get(),
                  "plot [%g:%g] \"%s\" with lines title \"sampled data\", f(x) with lines lw 2 "
                  "title \"f(x)=sin(x)*cos(10*x)\"\n",
                  x_min, x_max, file_path.c_str());
-    const char *skip_pause = std::getenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
-    if (!(skip_pause != nullptr && skip_pause[0] != '\0'))
-    {
-        std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
-    }
+    write_gnuplot_pause(gnuplot_pipe.get());
     return true;
 }
 
 bool try_plot_mandelbrot_with_gnuplot(const PlotOptions &options)
 {
-    using PipeHandle = std::unique_ptr<FILE, int (*)(FILE *)>;
-    const std::string command = gnuplot_command();
-    PipeHandle gnuplot_pipe(popen(command.c_str(), "w"), pclose);
+    PipeHandle gnuplot_pipe = open_gnuplot_pipe();
     if (!gnuplot_pipe)
     {
         return false;
     }
 
-    std::fprintf(gnuplot_pipe.get(), "set term qt font \"Helvetica,10\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set title \"Mandelbrot set\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set xlabel \"Re(c)\"\n");
-    std::fprintf(gnuplot_pipe.get(), "set ylabel \"Im(c)\"\n");
+    write_gnuplot_header(gnuplot_pipe.get(), "Mandelbrot set", "Re(c)", "Im(c)");
     std::fprintf(gnuplot_pipe.get(), "unset key\n");
     std::fprintf(gnuplot_pipe.get(), "set size ratio -1\n");
     std::fprintf(gnuplot_pipe.get(), "set view map\n");
-    std::fprintf(gnuplot_pipe.get(), "set mouse\n");
     std::fprintf(gnuplot_pipe.get(), "set xrange [%g:%g]\n", options.x_min, options.x_max);
     std::fprintf(gnuplot_pipe.get(), "set yrange [%g:%g]\n", options.y_min, options.y_max);
     std::fprintf(gnuplot_pipe.get(), "set palette rgbformulae 33,13,10\n");
     std::fprintf(gnuplot_pipe.get(), "plot \"%s\" using 1:2:3 with image\n",
                  options.temp_file.c_str());
-    const char *skip_pause = std::getenv("PLOTTING_APP_SKIP_GNUPLOT_PAUSE");
-    if (!(skip_pause != nullptr && skip_pause[0] != '\0'))
-    {
-        std::fprintf(gnuplot_pipe.get(), "pause mouse close\n");
-    }
+    write_gnuplot_pause(gnuplot_pipe.get());
     return true;
 }
 

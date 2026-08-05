@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "mandelbrot.hpp"
+#include "terminalcolour.hpp"
 
 int run_interactive_mandelbrot(std::istream &is, std::ostream &os)
 {
@@ -25,6 +26,9 @@ int run_interactive_mandelbrot(std::istream &is, std::ostream &os)
     }
 
     const Complex c(real, imaginary);
-    os << "is " << c << " outside set? " << std::boolalpha << set.isNotMandelbrot(c) << '\n';
+    const bool is_outside = set.isNotMandelbrot(c);
+    const Modifier colour(is_outside ? ForegroundCode::GREEN : ForegroundCode::RED);
+    os << "is " << c << " outside set? " << colour << std::boolalpha << is_outside << Modifier()
+       << '\n';
     return 0;
 }
