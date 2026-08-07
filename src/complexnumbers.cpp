@@ -101,9 +101,12 @@ Complex Complex::operator-(double c) const noexcept { return Complex(*this) -= c
 
 Complex &Complex::operator*=(const Complex &c) noexcept
 {
+    // cache c's members: c may alias *this (e.g. z *= z)
+    const double c_real = c.real;
+    const double c_imaginary = c.imaginary;
     const double prev_real = real;
-    real = c.real * real - imaginary * c.imaginary;
-    imaginary = prev_real * c.imaginary + imaginary * c.real;
+    real = c_real * prev_real - imaginary * c_imaginary;
+    imaginary = prev_real * c_imaginary + imaginary * c_real;
     return *this;
 }
 
@@ -135,8 +138,10 @@ Complex &Complex::operator/=(const Complex &c)
     {
         throw std::invalid_argument("cannot divide by zero");
     }
+    // compute before mutating: c may alias *this (e.g. z /= z)
+    const double denom = abs2(c);
     *this *= !c;
-    *this /= abs2(c);
+    *this /= denom;
     return *this;
 }
 

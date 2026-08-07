@@ -48,6 +48,22 @@ TEST(ComplexNumbersSuite, copyConstructor)
     EXPECT_EQ(original.im(), copy.im()) << original << copy;
     EXPECT_EQ(original.re(), copy.re()) << original << copy;
 }
+TEST(ComplexNumbersSuite, copyAssignmentSelf)
+{
+    Complex z(2., 3.);
+    Complex &ref = z;
+    z = ref;
+    EXPECT_EQ(z, Complex(2., 3.)) << "check self copy-assignment";
+}
+// tiny()/isZero() epsilon boundary
+TEST(ComplexNumbersSuite, epsilonBoundary)
+{
+    const double eps = std::numeric_limits<double>::epsilon();
+    EXPECT_TRUE(Complex(1.5 * eps, 0.).isZero()) << "below tiny() threshold treated as zero";
+    EXPECT_FALSE(Complex(3. * eps, 0.).isZero()) << "above tiny() threshold not treated as zero";
+    EXPECT_TRUE(Complex(0., 1.5 * eps).isReal()) << "below tiny() threshold treated as real";
+    EXPECT_FALSE(Complex(0., 3. * eps).isReal()) << "above tiny() threshold not treated as real";
+}
 // comparison
 TEST(ComplexNumbersSuite, equality)
 {
@@ -111,6 +127,12 @@ TEST(ComplexNumbersSuite, addition)
     EXPECT_EQ(a, Complex(1., 2.)) << "check equality";
     EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
 }
+TEST(ComplexNumbersSuite, additionAssignmentSelf)
+{
+    Complex z(2., 3.);
+    z += z;
+    EXPECT_EQ(z, Complex(4., 6.)) << "check self-addition aliasing";
+}
 TEST(ComplexNumbersSuite, additionReal)
 {
     EXPECT_EQ(Complex(2., 3.) + 1., Complex(3., 3.)) << "check equality";
@@ -148,6 +170,12 @@ TEST(ComplexNumbersSuite, subtraction)
     EXPECT_EQ(a - b, Complex(-2., -2.)) << "check equality";
     EXPECT_EQ(a, Complex(1., 2.)) << "check equality";
     EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
+}
+TEST(ComplexNumbersSuite, subtractionAssignmentSelf)
+{
+    Complex z(2., 3.);
+    z -= z;
+    EXPECT_EQ(z, Complex(0., 0.)) << "check self-subtraction aliasing";
 }
 
 TEST(ComplexNumbersSuite, subtractionReal)
@@ -189,6 +217,17 @@ TEST(ComplexNumbersSuite, multiplication)
     EXPECT_EQ(a * b, Complex(-5., 10.)) << "check equality";
     EXPECT_EQ(a, Complex(1., 2.)) << "check equality";
     EXPECT_EQ(b, Complex(3., 4.)) << "check equality";
+}
+TEST(ComplexNumbersSuite, multiplicationAssignmentSelf)
+{
+    Complex z(2., 3.);
+    z *= z;
+    EXPECT_EQ(z, Complex(-5., 12.)) << "check self-multiplication aliasing";
+}
+TEST(ComplexNumbersSuite, multiplicationSelf)
+{
+    Complex z(2., 3.);
+    EXPECT_EQ(z * z, Complex(-5., 12.)) << "check self-multiplication via binary operator";
 }
 TEST(ComplexNumbersSuite, multiplicationReal)
 {
@@ -233,6 +272,17 @@ TEST(ComplexNumbersSuite, division)
     EXPECT_EQ(a / b, Complex(2., 2.)) << "check equality";
     EXPECT_EQ(a, Complex(4., 4.)) << "check equality";
     EXPECT_EQ(b, Complex(2., 0.)) << "check equality";
+}
+TEST(ComplexNumbersSuite, divisionAssignmentSelf)
+{
+    Complex z(2., 3.);
+    z /= z;
+    EXPECT_EQ(z, Complex(1., 0.)) << "check self-division aliasing";
+}
+TEST(ComplexNumbersSuite, divisionSelf)
+{
+    Complex z(2., 3.);
+    EXPECT_EQ(z / z, Complex(1., 0.)) << "check self-division via binary operator";
 }
 TEST(ComplexNumbersSuite, divisionReal)
 {
