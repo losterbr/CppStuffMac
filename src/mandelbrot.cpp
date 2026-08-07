@@ -1,7 +1,7 @@
 #include "mandelbrot.hpp"
 
-Mandelbrot::Mandelbrot(int max_iterations, bool check_internalpoints)
-    : max_iterations(max_iterations), check_internalpoints(check_internalpoints) {}
+Mandelbrot::Mandelbrot(int iterations, bool check_internal)
+    : max_iterations(iterations), check_internalpoints(check_internal) {}
 
 bool Mandelbrot::inMainCardioid(const Complex &c) const
 {

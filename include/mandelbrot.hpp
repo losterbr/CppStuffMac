@@ -14,8 +14,7 @@ class Mandelbrot
     bool inPerio2Bulb(const Complex &c) const;
 
 public:
-    explicit Mandelbrot(int max_iterations = default_max_iterations,
-                        bool check_internalpoints = true);
+    explicit Mandelbrot(int iterations = default_max_iterations, bool check_internal = true);
     Mandelbrot(const Mandelbrot &m) = default;
     ~Mandelbrot() = default;
 
