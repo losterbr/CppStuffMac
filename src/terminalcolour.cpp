@@ -1,7 +1,7 @@
 #include "terminalcolour.hpp"
 
-Modifier::Modifier(ForegroundCode fgCode, BackgroundCode bgCode)
-    : fgCode(fgCode), bgCode(bgCode) {}
+Modifier::Modifier(ForegroundCode fg, BackgroundCode bg)
+    : fgCode(fg), bgCode(bg) {}
 
 ForegroundCode Modifier::foreground() const
 {

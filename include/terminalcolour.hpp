@@ -25,8 +25,8 @@ class Modifier
     BackgroundCode bgCode;
 
 public:
-    explicit Modifier(ForegroundCode fgCode = ForegroundCode::DEFAULT,
-                      BackgroundCode bgCode = BackgroundCode::DEFAULT);
+    explicit Modifier(ForegroundCode fg = ForegroundCode::DEFAULT,
+                      BackgroundCode bg = BackgroundCode::DEFAULT);
 
     ForegroundCode foreground() const;
     BackgroundCode background() const;
